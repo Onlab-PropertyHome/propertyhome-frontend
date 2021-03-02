@@ -20,4 +20,15 @@ export class UserRegistrationService {
       }
     );
   }
+
+  public login(user: User) {
+    // TODO
+    // return this.httpClient.post(
+    //   this.baseUrl + "login",
+    //   user,
+    //   {
+    //     responseType: 'text' as 'json'
+    //   }
+    // );
+  }
 }

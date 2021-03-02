@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+</head>
+
+<body>
+  <main class="form-login center">
+
+    <form [formGroup]="loginForm" (ngSubmit)="loginNow(loginForm)">
+
+      <img class="mb-4 center" alt="" width="150" height="150" src="./assets/logo-black.png">
+
+      <h1 class="h3 mb-3 fw-normal text-center">Please login!</h1>
+
+      <div class="mb-3">
+        <label for="inputEmail" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="inputEmail"
+          placeholder="example@email.com" [(ngModel)]="user.email" name="email" formControlName="inputEmail"
+          [ngClass]="{'is-invalid': loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid}">
+
+        <div *ngIf="loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid" class="invalid-feedback">
+          <div *ngIf="loginForm.get('inputEmail').errors.required">Email is required</div>
+          <div *ngIf="loginForm.get('inputEmail').errors.email">You must give a valid email address</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="inputPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword"
+        [ngClass]="{'is-invalid': loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid}">
+
+        <div *ngIf="loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid" class="invalid-feedback">
+          <div *ngIf="loginForm.get('inputPassword').errors.required">Password is required</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
+
+      <p class="mt-5 mb-3 text-muted text-center">© 2021</p>
+    </form>
+  </main>
+  
+</body>
+
+</html>
