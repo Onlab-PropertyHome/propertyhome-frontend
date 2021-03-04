@@ -10,7 +10,7 @@ import { UserRegistrationService } from '../user-registration.service';
 })
 export class LoginComponent implements OnInit {
   
-  user: User = new User("", "");
+  user: User = new User("", "", "", "");
   loginForm: FormGroup;
   validationMessage: string = null;
 

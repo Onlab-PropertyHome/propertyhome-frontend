@@ -10,13 +10,15 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UserRegistrationService } from './user-registration.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

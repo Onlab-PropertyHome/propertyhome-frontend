@@ -11,7 +11,7 @@ import { UserRegistrationService } from '../user-registration.service';
 })
 export class RegistrationComponent implements OnInit {
 
-  user: User = new User("", "");
+  user: User = new User("", "", "", "");
   message: any;
   registerForm: FormGroup;
   validationMessage: string = null;
@@ -36,15 +36,7 @@ export class RegistrationComponent implements OnInit {
     }, { validator: MustMatch('inputPassword', 'inputPasswordConf') });
   }
 
-  ngOnInit(): void {
-  }
-
-  checkPasswords(group: FormGroup) {
-    const pass = group.controls.inputPassword.value;
-    const confPass = group.controls.inputPasswordConf.value;
-
-    return pass === confPass ? null : { notSame: true }
-  }
+  ngOnInit(): void { }
 
   public registerNow(formValues: FormGroup) {
     if (!formValues.valid) {
@@ -52,23 +44,25 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
+    this.user = new User(
+      formValues.value.inputName, 
+      formValues.value.inputEmail, 
+      formValues.value.inputPassword, 
+      "0620-111-1111"
+    );
+
     let response = this.service.register(this.user);
     response.subscribe((data) => {
       this.message = data;
+      if (this.message == "done") {
+        formValues.reset({
+          inputEmail: '',
+          inputName: '',
+          inputPassword: '',
+          inputPasswordConf: ''
+        });
+      }
       console.log(`${this.message}`);
     });
   }
-
-  get _inputEmail() {
-    return this.registerForm.get('inputEmail');
-  }
-
-  // public registerNow() {
-  //   let response = this.service.register(this.user);
-  //   response.subscribe((data) => {
-  //     this.message = data;
-  //     console.log(`${this.message}`);
-  //   });
-  // }
-
 }
