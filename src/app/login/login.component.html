@@ -10,44 +10,54 @@
 </head>
 
 <body>
-  <main class="form-login center">
 
-    <form [formGroup]="loginForm" (ngSubmit)="loginNow(loginForm)">
-
-      <img class="mb-4 center" alt="" width="150" height="150" src="./assets/logo-black.png">
-
-      <h1 class="h3 mb-3 fw-normal text-center">Please login!</h1>
-
-      <div class="mb-3">
-        <label for="inputEmail" class="form-label">Email Address</label>
-        <input type="email" class="form-control" id="inputEmail"
-          placeholder="example@email.com" [(ngModel)]="user.email" name="email" formControlName="inputEmail"
-          [ngClass]="{'is-invalid': loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid}">
-
-        <div *ngIf="loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid" class="invalid-feedback">
-          <div *ngIf="loginForm.get('inputEmail').errors.required">Email is required</div>
-          <div *ngIf="loginForm.get('inputEmail').errors.email">You must give a valid email address</div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="inputPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword"
-        [ngClass]="{'is-invalid': loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid}">
-
-        <div *ngIf="loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid" class="invalid-feedback">
-          <div *ngIf="loginForm.get('inputPassword').errors.required">Password is required</div>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
-
-      <footer>
-        <p class="mt-5 mb-3 text-muted text-center">© 2021</p>
-      </footer>
-    </form>
-  </main>
+<div class="py-5">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <span class="anchor" id="formLogin"></span>
   
+        <!-- form card login -->
+        <div class="card rounded-0">
+          <div class="card-header">
+            <h3 class="mb-0">Login</h3>
+          </div>
+          <div class="card-body">
+            <form class="form-login" [formGroup]="loginForm" (ngSubmit)="loginNow(loginForm)">
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="inputEmail"
+                      placeholder="youremail@email.com" [(ngModel)]="user.email" name="email" formControlName="inputEmail"
+                      [ngClass]="{'is-invalid': loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid}">
+            
+                    <div *ngIf="loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid" class="invalid-feedback">
+                      <div *ngIf="loginForm.get('inputEmail').errors.required">Email is required</div>
+                      <div *ngIf="loginForm.get('inputEmail').errors.email">You must give a valid email address</div>
+                    </div>
+                  </div>
+            
+                  <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword" placeholder="your password"
+                    [ngClass]="{'is-invalid': loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid}">
+            
+                    <div *ngIf="loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid" class="invalid-feedback">
+                      <div *ngIf="loginForm.get('inputPassword').errors.required">Password is required</div>
+                    </div>
+                  </div>
+            
+                  <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
+                  <footer>
+                    <p class="mt-5 mb-3 text-muted text-center">© 2021</p>
+                  </footer>
+            </form>
+          </div>
+          <!--/card-block-->
+        </div>
+        <!-- /form card register -->
+      </div>
+    </div>
+</div>
+    
 </body>
 
 </html>
