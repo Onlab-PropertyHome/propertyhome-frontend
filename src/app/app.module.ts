@@ -11,6 +11,11 @@ import { UserRegistrationService } from './user-registration.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MapComponent } from './map/map.component';
+import { MapModule } from './map/map.module';
+
+
+
 
 @NgModule({
   declarations: [
@@ -18,11 +23,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RegistrationComponent,
     NavbarComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MapModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
