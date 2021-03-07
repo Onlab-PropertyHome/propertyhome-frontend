@@ -11,6 +11,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthService } from './auth.service';
+import { MapComponent } from './map/map.component';
+import { MapModule } from './map/map.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { AuthService } from './auth.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MapModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
