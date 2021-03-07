@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../auth.service';
 import { MustMatch } from '../must.match';
 import { User } from '../models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +17,7 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   validationMessage: string = null;
 
-  constructor(private service: AuthService, private formBuilder: FormBuilder) { 
+  constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router) { 
     this.registerForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
@@ -61,8 +62,11 @@ export class RegistrationComponent implements OnInit {
             inputPassword: '',
             inputPasswordConf: ''
           });
+
+          localStorage.setItem('token', "bmetoken");
         }
         console.log("res: " + res);
+        this.router.navigate(['/map']);
       },
       err => {
         if (err = "err_email_already_in_use") {
@@ -72,17 +76,6 @@ export class RegistrationComponent implements OnInit {
         }
         console.log("error: " + err);
       }
-      // (data) => {
-      // this.message = data;
-      // if (this.message == "done") {
-      //   formValues.reset({
-      //     inputEmail: '',
-      //     inputName: '',
-      //     inputPassword: '',
-      //     inputPasswordConf: ''
-      //   });
-      // }
-      // console.log(`${this.message}`);
     );
   }
 }

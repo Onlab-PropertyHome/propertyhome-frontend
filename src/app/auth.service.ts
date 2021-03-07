@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { User, UserLoginDTO } from './models/user';
 
 @Injectable({
@@ -9,7 +10,7 @@ export class AuthService {
 
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   public register(user: User) {
 
@@ -31,5 +32,14 @@ export class AuthService {
     //     responseType: 'text' as 'json'
     //   }
     // );
+  }
+
+  public logoutUser() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+  }
+
+  public loggedIn() {
+    return !!localStorage.getItem('token');
   }
 }
