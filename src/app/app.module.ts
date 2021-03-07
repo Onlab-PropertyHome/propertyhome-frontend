@@ -7,10 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
-import { UserRegistrationService } from './user-registration.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     ReactiveFormsModule,
     NgbModule
   ],
-  providers: [UserRegistrationService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

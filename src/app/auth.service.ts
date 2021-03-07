@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from './user';
+import { User, UserLoginDTO } from './models/user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserRegistrationService {
+export class AuthService {
+
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/";
 
   constructor(private httpClient: HttpClient) { }
@@ -21,7 +22,7 @@ export class UserRegistrationService {
     );
   }
 
-  public login(user: User) {
+  public login(user: UserLoginDTO) {
     // TODO
     // return this.httpClient.post(
     //   this.baseUrl + "login",

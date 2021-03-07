@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '../user';
-import { UserRegistrationService } from '../user-registration.service';
+import { AuthService } from '../auth.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   validationMessage: string = null;
 
-  constructor(private service: UserRegistrationService, private formBuilder: FormBuilder) { 
+  constructor(private service: AuthService, private formBuilder: FormBuilder) { 
     this.loginForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,

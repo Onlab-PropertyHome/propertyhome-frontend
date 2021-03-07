@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 import { MustMatch } from '../must.match';
-import { User } from '../user';
-import { UserRegistrationService } from '../user-registration.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   validationMessage: string = null;
 
-  constructor(private service: UserRegistrationService, private formBuilder: FormBuilder) { 
+  constructor(private service: AuthService, private formBuilder: FormBuilder) { 
     this.registerForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
@@ -52,17 +52,37 @@ export class RegistrationComponent implements OnInit {
     );
 
     let response = this.service.register(this.user);
-    response.subscribe((data) => {
-      this.message = data;
-      if (this.message == "done") {
-        formValues.reset({
-          inputEmail: '',
-          inputName: '',
-          inputPassword: '',
-          inputPasswordConf: ''
-        });
+    response.subscribe(
+      res => {
+        if (res == "done") {
+          formValues.reset({
+            inputEmail: '',
+            inputName: '',
+            inputPassword: '',
+            inputPasswordConf: ''
+          });
+        }
+        console.log("res: " + res);
+      },
+      err => {
+        if (err = "err_email_already_in_use") {
+          formValues.reset({
+            inputEmail: ''
+          })
+        }
+        console.log("error: " + err);
       }
-      console.log(`${this.message}`);
-    });
+      // (data) => {
+      // this.message = data;
+      // if (this.message == "done") {
+      //   formValues.reset({
+      //     inputEmail: '',
+      //     inputName: '',
+      //     inputPassword: '',
+      //     inputPasswordConf: ''
+      //   });
+      // }
+      // console.log(`${this.message}`);
+    );
   }
 }
