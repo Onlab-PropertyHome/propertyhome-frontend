@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthService } from './auth.service';
 import { MapModule } from './map/map.module';
 import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProfiledetailsComponent } from './profiledetails/profiledetails.compone
     NavbarComponent,
     LoginComponent,
     PageNotFoundComponent,
-    ProfiledetailsComponent
+    ProfiledetailsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
