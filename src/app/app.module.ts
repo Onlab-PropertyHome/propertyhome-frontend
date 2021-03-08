@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthService } from './auth.service';
 import { MapModule } from './map/map.module';
+import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MapModule } from './map/map.module';
     RegistrationComponent,
     NavbarComponent,
     LoginComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProfiledetailsComponent
   ],
   imports: [
     BrowserModule,

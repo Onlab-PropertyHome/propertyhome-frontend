@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: "register", component: RegistrationComponent },
   { path: "login", component: LoginComponent },
   { path: "map", component: MapComponent},
+  { path: "details", component: ProfiledetailsComponent},
   { path: "**", component: PageNotFoundComponent }
 ];
 
