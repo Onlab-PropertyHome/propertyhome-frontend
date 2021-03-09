@@ -62,18 +62,11 @@ export class RegistrationComponent implements OnInit {
             inputPassword: '',
             inputPasswordConf: ''
           });
-
-          localStorage.setItem('token', "bmetoken");
         }
         console.log("res: " + res);
-        this.router.navigate(['/map']);
+        this.router.navigate(['/login']);
       },
       err => {
-        if (err = "err_email_already_in_use") {
-          formValues.reset({
-            inputEmail: ''
-          })
-        }
         console.log("error: " + err);
       }
     );

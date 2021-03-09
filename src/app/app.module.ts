@@ -9,11 +9,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthService } from './auth.service';
 import { MapModule } from './map/map.module';
 import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
 import { HomeComponent } from './home/home.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +21,9 @@ import { HomeComponent } from './home/home.component';
     RegistrationComponent,
     NavbarComponent,
     LoginComponent,
-    PageNotFoundComponent,
     ProfiledetailsComponent,
-    HomeComponent
+    HomeComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,

@@ -7,3 +7,10 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+.picture-div {
+  margin: 10px;
+  display: block;
+  background: url(/assets/logo-black.png) no-repeat;
+  background-size: contain;
+}

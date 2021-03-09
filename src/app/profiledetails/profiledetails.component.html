@@ -5,9 +5,9 @@
   
         <!-- form card login -->
         <div class="card rounded-0">
-          <div class="card-header">
+          <div class="card-header mb-0">
             <div class="row">
-              <h3 class="mb-0 col-6">Profile Details</h3>
+              <h4 class="mb-0 col-6">Profile Details</h4>
               <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;">
                 <button>Edit profile</button>
               </div>
@@ -15,25 +15,23 @@
           </div>
           <div class="card-body">
               <div class="row">
-                    <div class="col-3" style="display: block; background: url('assets/logo-black.png') no-repeat; background-size: contain;">
-                         <!-- <img width="200" height="200" src="assets/logo-black.png"> -->
-                    </div>
-                    <form class="form-details col-9">
+                    <div class="col-3 picture-div"></div>
+                    <form class="form-details col-8">
                         <div class="mb-3">
                             <label for="userFullName" class="form-label">Name</label>
-                            <p id="userFullName" class="text-muted">name</p>
+                            <p id="userFullName" class="text-muted">{{userDTO.name}}</p>
                         </div>
                         <div class="mb-3">
                             <label for="userEmail" class="form-label">Email Address</label>
-                            <p id="userEmail" class="text-muted">email</p>
+                            <p id="userEmail" class="text-muted">{{userDTO.email}}</p>
                         </div>
                         <div class="mb-3">
                             <label for="userPassword" class="form-label">Password</label>
-                            <p id="userPassword" class="text-muted">password</p>
+                            <p id="userPassword" class="text-muted">{{userDTO.password}}</p>
                         </div>
                         <div class="mb-3">
-                            <label for="userPasswordConf" class="form-label">Confirm Password</label>
-                            <p id="userPasswordConf" class="text-muted">confirm password</p>
+                            <label for="userPasswordConf" class="form-label">Tel</label>
+                            <p id="userPasswordConf" class="text-muted">{{userDTO.tel}}</p>
                         </div>
                     </form>    
                 </div>      

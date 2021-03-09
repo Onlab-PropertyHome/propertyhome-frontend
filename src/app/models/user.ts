@@ -13,3 +13,12 @@ export class UserLoginDTO {
         public password: string
     ) { }
 }
+
+export class UserDTO {
+    constructor(
+        public name: string,
+        public email: string,
+        public password: string,
+        public tel: string
+    ) { }
+}

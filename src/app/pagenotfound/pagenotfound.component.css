@@ -1,0 +1,29 @@
+#error-page-content {
+    vertical-align: middle;
+    display: inline-block;
+    text-align: center;
+}
+
+#error-page {
+    text-align: center;
+    height: 100%;
+    white-space: nowrap;
+    word-break: normal;
+}
+
+#error-page-image {
+    margin-top: -50px;
+    margin-bottom: 20px;
+    width: 300px;
+}
+
+#error-page-vertical-align {
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+p {
+    width: 100%;
+    margin: auto;
+}

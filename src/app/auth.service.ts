@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { User, UserLoginDTO } from './models/user';
 
 @Injectable({
@@ -24,14 +25,13 @@ export class AuthService {
   }
 
   public login(user: UserLoginDTO) {
-    // TODO
-    // return this.httpClient.post(
-    //   this.baseUrl + "login",
-    //   user,
-    //   {
-    //     responseType: 'text' as 'json'
-    //   }
-    // );
+    return this.httpClient.post(
+      this.baseUrl + "login",
+      user,
+      {
+        responseType: 'text' as 'json'
+      }
+    );
   }
 
   public logoutUser() {
@@ -41,5 +41,9 @@ export class AuthService {
 
   public loggedIn() {
     return !!localStorage.getItem('token');
+  }
+
+  public getById(id: number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}getUserDTO/${id}`);
   }
 }

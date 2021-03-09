@@ -1,4 +1,5 @@
 import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -9,9 +10,14 @@ import { AuthService } from '../auth.service';
 export class NavbarComponent implements OnInit {
   public navbarCollapsed = true;
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  public navigateToDetails() {
+    let id = localStorage.getItem('token');
+    this.router.navigate([`/details/${id}`]);
   }
 
 }

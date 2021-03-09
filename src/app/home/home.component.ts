@@ -17,18 +17,18 @@ export class HomeComponent implements OnInit {
     "assets/logo-black.png",
     "assets/logo-with-text.png",
     "assets/404-not-found.png"
-        ];
+  ];
 
-        getRndInteger(min, max) {
-          return Math.floor(Math.random() * (max - min + 1) ) + min;
-        }
+  getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
-      rnd(){
-        let a = this.getRndInteger(0,2);
-        return this.tomb[a];
-      }
+  rnd() {
+    let a = this.getRndInteger(0, 2);
+    return this.tomb[a];
+  }
 
-  public styleobject:Object = {
+  public styleobject: Object = {
     'background-image': 'url(' + this.rnd() + ')',
   }
-} 
+}
