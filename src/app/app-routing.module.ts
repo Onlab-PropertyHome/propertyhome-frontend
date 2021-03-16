@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: "map", component: MapComponent},
   { path: "details/:id", component: ProfiledetailsComponent},
   { path: "home", component: HomeComponent},
-  { path: "**", component: PagenotfoundComponent }
+  { path: "**", component: PagenotfoundComponent },
+  { path: "not-found", component: PagenotfoundComponent }
 ];
 
 @NgModule({

@@ -14,6 +14,11 @@ import { MapModule } from './map/map.module';
 import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -33,7 +38,14 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    NgbAlertModule
+    NgbAlertModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["https://onlab-alberletdb.herokuapp.com/api/*", "http://localhost:8080/api/*"],
+        disallowedRoutes: []
+      }
+    })
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

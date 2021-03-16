@@ -13,7 +13,7 @@
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label">Email Address</label>
                     <input type="email" class="form-control" id="inputEmail"
-                      placeholder="youremail@email.com" [(ngModel)]="user.email" name="email" formControlName="inputEmail"
+                      placeholder="youremail@email.com" name="email" formControlName="inputEmail"
                       [ngClass]="{'is-invalid': loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid}">
             
                     <div *ngIf="loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid" class="invalid-feedback">

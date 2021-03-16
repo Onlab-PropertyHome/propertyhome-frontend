@@ -1,8 +1,11 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../auth.service';
-import { User, UserLoginDTO } from '../models/user';
+import { AuthResponse } from '../models/response';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +13,10 @@ import { User, UserLoginDTO } from '../models/user';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
-  user: User = new User("", "", "", "");
+  user: User;
   loginForm: FormGroup;
-  validationMessage: string = null;
 
-  constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router) { 
+  constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router, private http: HttpClient) { 
     this.loginForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
@@ -36,23 +37,18 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    let userLoginDTO = new UserLoginDTO(
-      formValues.value.inputEmail,
-      formValues.value.inputPassword
-    );
-
-    let response = this.service.login(userLoginDTO);
+    let response = this.service.login(formValues.value.inputEmail, formValues.value.inputPassword);
     response.subscribe(
-      res => {
-        if (res != "err_wrong_credentials" &&
-            res != "err_no_account_with_email") {
-              localStorage.setItem('token', res.toString());
-        }
-        console.log("res: " + res);
-        this.router.navigate(['/map']);
+      (response: AuthResponse) => {
+        console.log(response.jwt);
+        localStorage.setItem('token', response.jwt);
+        const helper = new JwtHelperService();
+        const decodedToken = helper.decodeToken(response.jwt);
+        localStorage.setItem('user_id', decodedToken.jti);
+        this.router.navigate(['/home']);
       },
-      err => {
-        console.log("error: " + err);
+      (err_response: HttpErrorResponse) => {
+        alert(err_response.error.message);
       }
     )
   }

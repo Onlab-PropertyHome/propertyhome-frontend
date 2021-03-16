@@ -1,7 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { UserDTO } from '../models/user';
+import { User, UserDTO } from '../models/user';
 
 @Component({
   selector: 'app-profiledetails',
@@ -9,11 +10,12 @@ import { UserDTO } from '../models/user';
   styleUrls: ['./profiledetails.component.css']
 })
 export class ProfiledetailsComponent implements OnInit {
-  userDTO;
+  public user: User;
   
   constructor(
     private route: ActivatedRoute,
-    private service: AuthService
+    private service: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -23,8 +25,13 @@ export class ProfiledetailsComponent implements OnInit {
   loadProfile() {
     const userId = +this.route.snapshot.paramMap.get('id');
     this.service.getById(userId).subscribe(
-      data => this.userDTO = data,
-      err => console.log(err)
+      (response: User) => { 
+        this.user = response 
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message)
+        this.router.navigate(['/not-found']);
+      }
     );
   }
 

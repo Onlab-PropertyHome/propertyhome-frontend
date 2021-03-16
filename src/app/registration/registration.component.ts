@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { MustMatch } from '../must.match';
-import { User } from '../models/user';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthResponse } from '../models/response';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-registration',
@@ -11,8 +13,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
-  user: User = new User("", "", "", "");
   message: any;
   registerForm: FormGroup;
   validationMessage: string = null;
@@ -45,30 +45,20 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
-    this.user = new User(
-      formValues.value.inputName, 
-      formValues.value.inputEmail, 
-      formValues.value.inputPassword, 
-      "0620-111-1111"
-    );
-
-    let response = this.service.register(this.user);
-    response.subscribe(
-      res => {
-        if (res == "done") {
-          formValues.reset({
-            inputEmail: '',
-            inputName: '',
-            inputPassword: '',
-            inputPasswordConf: ''
-          });
-        }
-        console.log("res: " + res);
-        this.router.navigate(['/login']);
+    console.log(formValues.value.inputName);
+    this.service.register(formValues.value.inputName, formValues.value.inputEmail, formValues.value.inputPassword, null)
+    .subscribe(
+      (response: AuthResponse) => {
+        console.log(response.jwt);
+        localStorage.setItem('token', response.jwt);
+        const helper = new JwtHelperService();
+        const decodedToken = helper.decodeToken(response.jwt);
+        localStorage.setItem('user_id', decodedToken.jti);
+        this.router.navigate(['/home']);
       },
-      err => {
-        console.log("error: " + err);
+      (err_response: HttpErrorResponse) => {
+        alert(err_response.error.message);
       }
-    );
+    )
   }
 }

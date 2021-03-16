@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthResponse } from './models/response';
 import { User, UserLoginDTO } from './models/user';
 
 @Injectable({
@@ -9,33 +10,30 @@ import { User, UserLoginDTO } from './models/user';
 })
 export class AuthService {
 
-  private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/";
+  private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
+  // private baseUrl: string = "http://localhost:8080/api/";
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 
-  public register(user: User) {
+  public login(email: string, password: string) : Observable<AuthResponse> {
+    const options = {
+      params: new HttpParams().set('email', email).set('password', password)
+    };
 
-    return this.httpClient.post(
-      this.baseUrl + "register",
-      user,
-      {
-        responseType: 'text' as 'json'
-      }
-    );
+    return this.httpClient.post<AuthResponse>(`${this.baseUrl}login`, null, options);
   }
 
-  public login(user: UserLoginDTO) {
-    return this.httpClient.post(
-      this.baseUrl + "login",
-      user,
-      {
-        responseType: 'text' as 'json'
-      }
-    );
+  public register(name: string, email: string, password: string, tel: string) : Observable<AuthResponse> {
+    const options = {
+      params: new HttpParams().set('name', name).set('email', email).set('password', password).set('tel', tel)
+    };
+
+    return this.httpClient.post<AuthResponse>(`${this.baseUrl}register`, null, options);
   }
 
   public logoutUser() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
     this.router.navigate(['/login']);
   }
 
@@ -43,7 +41,7 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  public getById(id: number): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}getUserDTO/${id}`);
+  public getById(id: number): Observable<User> {
+    return this.httpClient.get<User>(`${this.baseUrl}user/${id}`);
   }
 }

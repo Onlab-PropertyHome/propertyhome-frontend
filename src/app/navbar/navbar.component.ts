@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public navigateToDetails() {
-    let id = localStorage.getItem('token');
+    let id = localStorage.getItem('user_id');
     this.router.navigate([`/details/${id}`]);
   }
 
