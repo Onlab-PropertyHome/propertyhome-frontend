@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuthService } from '../auth.service';
 import { AuthResponse } from '../models/response';
-import { User } from '../models/user';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +12,6 @@ import { User } from '../models/user';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: User;
   loginForm: FormGroup;
 
   constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router, private http: HttpClient) { 

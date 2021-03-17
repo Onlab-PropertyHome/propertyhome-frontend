@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -43,5 +43,32 @@ export class AuthService {
 
   public getById(id: number): Observable<User> {
     return this.httpClient.get<User>(`${this.baseUrl}user/${id}`);
+  }
+
+  public save(id: number, name: string, email: string, password: string, tel: string): Observable<User> {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    const options = {
+      headers: headers_object,
+      params: new HttpParams().set('name', name).set('email', email).set('password', password).set('tel', tel)
+    };
+
+    return this.httpClient.put<User>(`${this.baseUrl}user/edit/${id}`, null, options);
+  }
+
+  public delete(id: number) {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    const options = {
+      headers: headers_object
+    };
+
+    return this.httpClient.delete(`${this.baseUrl}user/delete/${id}`, options);
   }
 }

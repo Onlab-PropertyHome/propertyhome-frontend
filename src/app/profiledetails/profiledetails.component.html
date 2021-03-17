@@ -9,29 +9,57 @@
             <div class="row">
               <h4 class="mb-0 col-6">Profile Details</h4>
               <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;">
-                <button>Edit profile</button>
+                <button class="btn btn-secondary btn-sm" *ngIf="!getIsEditing()" (click)="setIsEditing()">Edit profile</button>
               </div>
             </div>
           </div>
           <div class="card-body">
               <div class="row">
                     <div class="col-3 picture-div"></div>
-                    <form class="form-details col-8">
+                    <form class="form-details col-8" [formGroup]="detailsForm">
                         <div class="mb-3">
                             <label for="userFullName" class="form-label">Name</label>
-                            <p id="userFullName" class="text-muted">{{user?.name}}</p>
+                            <p id="userFullName" class="text-muted" *ngIf="!getIsEditing()">{{user?.name}}</p>
+                            <input class="form-control" id="userFullName" formControlName="userFullName" *ngIf="getIsEditing()" placeholder="{{user?.name == 'null' ? 'You have not set this yet' : user?.name}}">
                         </div>
                         <div class="mb-3">
                             <label for="userEmail" class="form-label">Email Address</label>
-                            <p id="userEmail" class="text-muted">{{user?.email}}</p>
+                            <p id="userEmail" class="text-muted" *ngIf="!getIsEditing()">{{user?.email}}</p>
+                            <input type="email" class="form-control" id="userEmail" formControlName="userEmail" *ngIf="getIsEditing()" placeholder="{{user?.email == 'null' ? 'You have not set this yet' : user?.email}}"
+                            [ngClass]="{'is-invalid': detailsForm.get('userEmail').touched && detailsForm.get('userEmail').invalid}">
+
+                            <div *ngIf="detailsForm.get('userEmail').touched && detailsForm.get('userEmail').invalid" class="invalid-feedback">
+                              <div *ngIf="detailsForm.get('userEmail').errors.email">You must give a valid email address</div>
+                            </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" *ngIf="getIsEditing()">
                             <label for="userPassword" class="form-label">Password</label>
-                            <p id="userPassword" class="text-muted">{{user?.password}}</p>
+                            <p id="userPassword" class="text-muted" *ngIf="!getIsEditing()">{{user?.password}}</p>
+                            <input class="form-control" id="userPassword" formControlName="userPassword" *ngIf="getIsEditing()" placeholder="Password"
+                            [ngClass]="{'is-invalid': detailsForm.get('userPassword').touched && detailsForm.get('userPassword').invalid}">
+
+                            <div *ngIf="detailsForm.get('userPassword').touched && detailsForm.get('userPassword').invalid" class="invalid-feedback">
+                              <div *ngIf="detailsForm.get('userPassword').errors.minlength">Password should be at least 8 characters</div>
+                              <div *ngIf="detailsForm.get('userPassword').errors.maxlength">Password cannot be more than 20 characters</div>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="userTel" class="form-label">Tel</label>
-                            <p id="userTel" class="text-muted">{{user?.tel}}</p>
+                            <p id="userTel" class="text-muted" *ngIf="!getIsEditing()">{{user?.tel == 'null' ? 'You have not set this yet' : user?.tel}}</p>
+                            <input class="form-control" id="userTel" formControlName="userTel" *ngIf="getIsEditing()" placeholder="{{user?.tel == 'null' ? 'You have not set this yet' : user?.tel}}"
+                            [ngClass]="{'is-invalid': detailsForm.get('userTel').touched && detailsForm.get('userTel').invalid}">
+
+                            <div *ngIf="detailsForm.get('userTel').touched && detailsForm.get('userTel').invalid" class="invalid-feedback">
+                              <div *ngIf="detailsForm.get('userTel').errors.minlength">Tel must be 11 characters</div>
+                              <div *ngIf="detailsForm.get('userTel').errors.maxlength">Tel must be 11 characters</div>
+                            </div>
+                        </div>
+                        <div class="mb-3" *ngIf="getIsEditing()">
+                          <button class="btn btn-danger btn-sm w-100 mb-3" (click)="delete()">Delete profile</button>
+                          <div class="d-flex bd-highlight">
+                            <button class="btn btn-primary w-50 mb-3 mr-1" (click)="save(detailsForm)">Save</button>
+                            <button class="btn btn-secondary w-50 mb-3 ml-1" (click)="cancel()">Cancel</button>  
+                          </div>                        
                         </div>
                     </form>    
                 </div>      

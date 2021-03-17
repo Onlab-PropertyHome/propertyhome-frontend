@@ -26,10 +26,15 @@
                     <a class="nav-link" *ngIf="!authService.loggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="cursor:pointer" *ngIf="authService.loggedIn()" (click)="navigateToDetails()">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="cursor:pointer" *ngIf="authService.loggedIn()" (click)="authService.logoutUser()">Logout</a>
+                    <div ngbDropdown display="dynamic" class="d-inline-block" *ngIf="authService.loggedIn()">
+                        <button class="btn btn-outline-secondary" id="dropdown" ngbDropdownToggle>Profile</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdown">
+                          <button ngbDropdownItem [routerLink]="['/details', getId()]" routerLinkActive="active">View Profile</button>
+                          <button ngbDropdownItem routerLink="/ads" routerLinkActive="active">Your Ads</button>
+                          <button ngbDropdownItem class="disabled">Favorite Ads</button>
+                          <button ngbDropdownItem (click)="authService.logoutUser()">Logout</button>
+                        </div>
+                    </div>
                 </li>
             </ul>
     </div>

@@ -1,0 +1,65 @@
+<div class="py-5">
+    <div class="row">
+      <div class="col-md-9 mx-auto">
+        <span class="anchor" id="formDetails"></span>
+  
+        <!-- form card login -->
+        <div class="card rounded-0">
+          <div class="card-header mb-0">
+            <div class="row">
+              <h4 class="mb-0 col-6">Your ads</h4>
+              <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;">
+                <button class="btn btn-secondary btn-sm" (click)="add()">Add new ad</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+              <div class="row">
+                    <form class="form-details col-12">
+                        <div class="mb-3" *ngIf="ads.length != 0">
+
+                            <div *ngFor="let ad of ads">
+
+                                <div class="card rounded-1 w-75 mb-2">
+                                    <div class="card-header mb-0">
+                                        <div class="row">
+                                            <h5 class="mb-0 col-6">Ad</h5>
+                                            <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;">
+                                                <button class="btn btn-danger btn-sm mr-2" disabled>Edit</button>
+                                                <button class="btn btn-danger btn-sm" (click)="delete(ad)">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="form-ad col-12">
+                                            <div class="row">
+                                                <img class="col-lg-4 picture-div" src="{{ad.picture}}">
+                                                <div class="mb-1 col-12 col-md-4">
+                                                    <label for="adLocation" class="form-label">Location</label>
+                                                    <p id="adLocation">{{ad.location}}</p>
+                                                </div>
+                                                <div class="mb-1 col-12 col-lg-4">
+                                                    <label for="adPrice">Price</label>
+                                                    <p id="adPrice">{{ad.price}}</p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <h2 class="mt-4 mb-4 text-center text-muted" *ngIf="ads.length == 0">Currently you have no ads</h2>
+                    </form>    
+                </div>
+          </div>
+          <div class="card-footer text-center text-muted">
+            © 2021
+          </div>
+          <!--/card-block-->
+        </div>
+        <!-- /form card -->
+      </div>
+    </div>
+</div>

@@ -15,6 +15,7 @@ import { ProfiledetailsComponent } from './profiledetails/profiledetails.compone
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import { AdsComponent } from './ads/ads.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -28,7 +29,8 @@ export function tokenGetter() {
     LoginComponent,
     ProfiledetailsComponent,
     HomeComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    AdsComponent
   ],
   imports: [
     BrowserModule,
