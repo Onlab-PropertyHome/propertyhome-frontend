@@ -193,3 +193,9 @@ input {
     align-self: auto;
     }
  */
+/*****************
+    - Header -
+*****************/
+.card{
+  margin-top: 10px;
+}
