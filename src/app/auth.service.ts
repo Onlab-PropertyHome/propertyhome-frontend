@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthResponse } from './models/response';
-import { User, UserLoginDTO } from './models/user';
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'

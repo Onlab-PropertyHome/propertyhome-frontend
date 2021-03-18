@@ -24,22 +24,5 @@ export class NavbarComponent implements OnInit {
   public getId() {
     return localStorage.getItem('user_id');
   }
-
-  public getName() : string {
-    let id = +localStorage.getItem('user_id');
-    let user: User;
-    this.authService.getById(id)
-    .subscribe(
-      (response) => {
-        user = response;
-      },
-      (err_response) => {
-        console.log(err_response.error.message);
-      }
-    )
-    if (user == null)
-      return "";
-    return user.name;
-  }
-
+  
 }

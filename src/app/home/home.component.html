@@ -1,131 +1,110 @@
-<!-- <body class="inventory-body" [ngStyle]="styleobject">
+<ngb-carousel [showNavigationArrows]="false" [showNavigationIndicators]="false" class="mb-3">
 
-    <div id="background-image">
-        <div>
-            <form action="#" method="post" novalidate="novalidate">
+    <ng-template ngbSlide>
+
+        <div class="picsum-img-wrapper">
+            <img src="/assets/property-light.png" class="center">
+        </div>
+
+        <div class="carousel-caption">
+
+            <form action="#" method="post" [formGroup]="searchForm">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-sm-12">
                         <div class="row">
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                <input type="text" class="form-control search-slt" placeholder="Enter Pickup City">
+                            <div class="col-lg-2 col-md-3 col-sm-12 p-0 mr-1">
+                                <input type="number" min="1" class="form-control search-slt" placeholder="Size" formControlName="inputSize">
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                <input type="text" class="form-control search-slt" placeholder="Enter Drop City">
+                            <div class="col-lg-2 col-md-3 col-sm-12 p-0 ml-1 mr-1">
+                                <input type="number" min="1" class="form-control search-slt" placeholder="Rooms" formControlName="inputRooms">
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                <select class="form-control search-slt" id="exampleFormControlSelect1">
-                                    <option>Select Vehicle</option>
-                                    <option>Example one</option>
-                                    <option>Example one</option>
-                                    <option>Example one</option>
-                                    <option>Example one</option>
-                                    <option>Example one</option>
-                                    <option>Example one</option>
+                            <div class="col-lg-2 col-md-3 col-sm-12 p-0 ml-1 mr-1">
+                                <select class="form-control search-slt" id="formSelectType" formControlName="selectType">
+                                    <option value="">Select Type</option>
+                                    <option value="brick">Brick</option>
+                                    <option value="stone">Stone</option>
+                                    <option value="wooden">Wooden</option>
+                                    <option value="concrete">Concrete</option>
                                 </select>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                <button type="button" class="btn btn-danger wrn-btn">Search</button>
+                            <!-- <div class="col-lg-2 col-md-3 col-sm-12 p-0 ml-1 mr-1">
+                                <select class="form-control search-slt" id="formSelectMinPrice" name="formSelectMinPrice" formControlName="selectMinPrice">
+                                    <option value="0">Min Price</option>
+                                    <option value="10000">$10.000</option>
+                                    <option value="20000">$20.000</option>
+                                    <option value="30000">$30.000</option>
+                                    <option value="40000">$40.000</option>
+                                    <option value="50000">$50.000</option>
+                                    <option value="60000">$60.000</option>
+                                    <option value="70000">$70.000</option>
+                                    <option value="80000">$80.000</option>
+                                    <option value="90000">$90.000</option>
+                                    <option value="100000">$100.000</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12 p-0 ml-1 mr-1">
+                                <select class="form-control search-slt" id="formSelectMaxPrice" name="formSelectMaxPrice" formControlName="selectMaxPrice">
+                                    <option value="200000">Max Price</option>
+                                    <option value="10000">$10.000</option>
+                                    <option value="20000">$20.000</option>
+                                    <option value="30000">$30.000</option>
+                                    <option value="40000">$40.000</option>
+                                    <option value="50000">$50.000</option>
+                                    <option value="60000">$60.000</option>
+                                    <option value="70000">$70.000</option>
+                                    <option value="80000">$80.000</option>
+                                    <option value="90000">$90.000</option>
+                                    <option value="100000">$100.000</option>
+                                </select>
+                            </div> -->
+                            <div class="col-lg-4 col-md-6 col-sm-12 p-0 ml-1 mr-1">
+                                <select class="form-control search-slt" id="formSelectPriceRange" name="formSelectPriceRange" formControlName="selectPriceRange">
+                                    <option value="100000+">Above $100.000</option>
+                                    <option value="0-20000">$0 - $20.000</option>
+                                    <option value="20000-40000">$20.000 - $40.000</option>
+                                    <option value="40000-60000">$40.000 - $60.000</option>
+                                    <option value="60000-80000">$60.000 - $80.000</option>
+                                    <option value="80000-100000">$80.000 - $100.000</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-1 col-md-3 col-sm-12 p-0 ml-1">
+                                <button type="button" class="btn btn-danger" (click)="search()">Search</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="card" routerLink="/map">
-        <div class=keptarolo>
-
-            <img class="kep" src="assets/logo-black.png" alt="">
-
-
-            <p style="margin-top: 40px; margin-left: 20px">Budapest, 100. kerület</p>
 
         </div>
-        <blockquote class="blockquote-mb-0">
+    </ng-template>
 
-            <footer class="blockquote-footer">Ennek az ára <cite title="Source Title">xx Ft</cite></footer>
-        </blockquote>
-    </div>
+</ngb-carousel>
 
-</body> -->
-
-
-<div>
-    <form action="#" method="post" novalidate="novalidate">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-2 col-md-3 col-sm-12 p-0">
-                        <input type="text" class="form-control search-slt" placeholder="Enter Pickup City">
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-12 p-0">
-                        <input type="text" class="form-control search-slt" placeholder="Enter Drop City">
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-12 p-0">
-                        <select class="form-control search-slt" id="exampleFormControlSelect1">
-                            <option>Select Vehicle</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                            <option>Example one</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                        <button type="button" class="btn btn-danger wrn-btn">Search</button>
+<div class="row ml-1 mr-1 justify-content-center">
+    <div *ngFor="let ad of ads">
+        <div class="col-lg-4 col-md-6 col-sm-12" style="width: 100%;">
+            <div class="card ml-2 mr-2" style="width: 18rem;">
+                <img src="{{ad.picture}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{ad.location}}</h5>
+                  <p class="card-text">{{ad.details}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">{{ad.price}}</li>
+                  <li class="list-group-item">Méret:{{ad.property.size}} m<sup>2</sup></li>
+                  <li class="list-group-item">Szobák száma: {{ad.property.roomNumber}}</li>
+                </ul>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6" style="text-align: center;">
+                            <a href="#" class="card-link" style="font-size: xx-large;">&#9829;</a>
+                        </div>
+                        <div class="col-6" style="text-align: center;">
+                            <a href="#" class="card-link" style="font-size: xx-large;">&#10509;</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>    
         </div>
-    </form>
-</div>
-
-<!-- <div class="container">
-        <form>
-        
-          <div class="wrapper">
-            <p>English</p>
-            <div class="search-container">
-              <input type="text" class="search" placeholder="Location">
-              <input type="text" class="date-from" placeholder="Check In > Check Out">
-              <input type="text" class="date-to" placeholder="Number of people">
-              <button type="submit" class="button">Search</button>
-            </div>
-          </div>
-          
-          
-        </form>
-          
-        
-        </div> -->
-
-<div class="row">
-    <div *ngFor="let ad of ads">
-        
-        <div class="card" style="width: 18rem;">
-            <img src="{{ad.picture}}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{ad.location}}</h5>
-              <p class="card-text">{{ad.details}} nem lopot.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{ad.price}}</li>
-              <li class="list-group-item">Méret:{{ad.property.size}} m<sup>2</sup></li>
-              <li class="list-group-item">Szobák száma: {{ad.property.roomNumber}}</li>
-            </ul>
-            <div class="card-body">
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-
-
-
-
-
-
-
-
     </div>
 </div>

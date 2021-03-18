@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AdsComponent } from './ads/ads.component';
+import { AdvertisementService } from './advertisement.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -49,7 +50,7 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [AuthService],
+  providers: [AuthService, AdvertisementService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

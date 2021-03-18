@@ -19,7 +19,7 @@ export class AdsComponent implements OnInit {
     this.service.getById(id)
     .subscribe(
       (user: User) => {
-        //this.ads = user.ads;
+        this.ads = user.ads;
         console.log(this.ads.length);
       },
       (err_response) => {
