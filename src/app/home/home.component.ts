@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   private example_ad: Ad = { ad_id: 1, property: this.example_property, picture: "https://www.propertysupport.hu/wp-content/uploads/2020/11/property-support-ingatlan-tanacsadas-1.jpg", price: "1500000 Ft", location: "Budapest ...", details: null };
   public ads: Ad[] = [];
   public searchForm: FormGroup;
+  public noAds: boolean = false;
 
   constructor(private service: AdvertisementService, private formBuilder: FormBuilder) {
     this.searchForm = formBuilder.group({
@@ -27,6 +28,14 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  public getNoAds() : boolean {
+    return this.noAds;
+  }
+
+  public setNoAds(bool: boolean) {
+    this.noAds = bool;
   }
 
   public search() {
@@ -55,10 +64,18 @@ export class HomeComponent implements OnInit {
 
     this.service.search(rooms, type, size, priceRange).subscribe(
       (response: Ad[]) => {
+        console.log(response);
+        this.setNoAds(false);
         this.ads = response;
       },
       (err_response) => {
-        alert(err_response.error.message);
+        this.ads = [];
+        if (err_response.error.message == "Ad is not found") {
+          this.setNoAds(true);
+        }
+        else {
+          alert(err_response.error.message);
+        }
       }
     )
   }

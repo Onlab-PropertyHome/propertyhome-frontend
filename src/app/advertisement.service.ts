@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ad } from './models/ad';
@@ -8,8 +8,8 @@ import { Ad } from './models/ad';
 })
 export class AdvertisementService {
 
-  private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/ad/";
-  // private baseUrl: string = "http://localhost:8080/api/ad/";
+  private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
+  // private baseUrl: string = "http://localhost:8080/api/";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -33,7 +33,40 @@ export class AdvertisementService {
     const options = {
       params: httpParams
     };
+
+    console.log(httpParams.get('price'));
     
-    return this.httpClient.get<Ad[]>(`${this.baseUrl}find`, options);
+    return this.httpClient.get<Ad[]>(`${this.baseUrl}ad/find`, options);
+  }
+
+  public add(user_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string) : Observable<Ad> {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    let httpParams: HttpParams = new HttpParams()
+      .set('price', price).set('location', "Budapest").set('details', details).set('roomNumber', roomNumber.toString())
+      .set('type', type).set('state', state).set('size', size.toString());
+
+    const options = {
+      headers: headers_object,
+      params: httpParams
+    };
+
+    return this.httpClient.post<Ad>(`${this.baseUrl}user/${user_id}/addad`, null, options);
+  }
+
+  public delete(id: number) {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    const options = {
+      headers: headers_object
+    };
+
+    return this.httpClient.delete(`${this.baseUrl}ad/delete/${id}`, options);
   }
 }

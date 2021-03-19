@@ -31,7 +31,7 @@ export function tokenGetter() {
     ProfiledetailsComponent,
     HomeComponent,
     PagenotfoundComponent,
-    AdsComponent
+    AdsComponent,
   ],
   imports: [
     BrowserModule,

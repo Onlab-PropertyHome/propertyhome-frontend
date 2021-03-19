@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../auth.service';
 import { AuthResponse } from '../models/response';
 
@@ -12,9 +13,11 @@ import { AuthResponse } from '../models/response';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('errormodal') errormodal;
   loginForm: FormGroup;
+  public error_text = "";
 
-  constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router, private http: HttpClient) { 
+  constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal) {     
     this.loginForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
@@ -27,6 +30,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  public open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop: "static", keyboard: false}).result
+    .then((result) => { }, (reason) => { })
   }
 
   public loginNow(formValues: FormGroup) {
@@ -46,7 +54,15 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       (err_response: HttpErrorResponse) => {
-        alert(err_response.error.message);
+        if (err_response.status == 401) {
+          this.loginForm.get('inputPassword').reset();
+        }
+
+        if (err_response.status == 404) {
+          this.loginForm.reset();
+        }
+        this.error_text = err_response.error.message;
+        this.open(this.errormodal);
       }
     )
   }
