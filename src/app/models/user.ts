@@ -17,6 +17,8 @@ export interface User {
     email: string,
     password: string,
     tel: string,
+    picture: string,
+    favAds: number[],
     ads: Ad[]
 }
 

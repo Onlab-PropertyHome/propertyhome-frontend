@@ -19,7 +19,7 @@ export class AdsComponent implements OnInit {
   private closeResult: string = '';
   public createAdForm: FormGroup;
   public fileChoosen: boolean = false;
-  public fileToUpload: File = null;
+  private fileToUpload: File = null;
 
   constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
     this.createAdForm = this.formBuilder.group({
@@ -30,7 +30,6 @@ export class AdsComponent implements OnInit {
       inputDetails: new FormControl(),
       selectType: new FormControl(''),
       selectState: new FormControl('')
-      
     });
   }
 
@@ -96,20 +95,17 @@ export class AdsComponent implements OnInit {
     )
   }
 
-  public add() {
-    
+  public async add() {
     let user_id: number = +localStorage.getItem('user_id'),
         size: number = this.createAdForm.value.inputSize,
         room: number = this.createAdForm.value.inputRoom,
         price = this.createAdForm.value.inputPrice,
-        picture = this.aws.uploadFile(this.fileToUpload),
+        picture = this.aws.uploadFile(this.fileToUpload, user_id, true),
         type: string = this.createAdForm.value.selectType,
         state: string = this.createAdForm.value.selectState,
         details: string = this.createAdForm.value.inputDetails;
 
-       
-    
-    this.adService.add(user_id, size, room, price, type, state, details, picture).subscribe(
+    this.adService.add(user_id, size, room, price, type, state, details, await picture).subscribe(
       (result: Ad) => {
         this.refreshAds();
       },

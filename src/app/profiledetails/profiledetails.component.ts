@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AmazonService } from '../amazon.service';
 import { AuthService } from '../auth.service';
 import { User } from '../models/user';
 
@@ -13,13 +14,15 @@ import { User } from '../models/user';
 export class ProfiledetailsComponent implements OnInit {
   public user: User;
   private isEditing: boolean = false;
-  public detailsForm: FormGroup
+  public detailsForm: FormGroup;
+  public selectedPicture: File;
   
   constructor(
     private route: ActivatedRoute,
     private service: AuthService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private aws: AmazonService
   ) {
     this.detailsForm = this.formBuilder.group({
       userFullName: new FormControl('', []),
@@ -33,8 +36,15 @@ export class ProfiledetailsComponent implements OnInit {
       userTel: new FormControl('', [
         Validators.minLength(11),
         Validators.maxLength(11)
-      ])
+      ]),
+      userPic: new FormControl()
     })
+  }
+
+  public onSelectFile(event) {
+    if (event.target.files) {
+      this.selectedPicture = event.target.files[0];
+    }
   }
 
   public delete() {
@@ -52,28 +62,36 @@ export class ProfiledetailsComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  public save(formValues: FormGroup) {
+  public async save(formValues: FormGroup) {
     if (!formValues.valid) {
       console.log('Form is invalid');
       return;
     }
 
-    let name = this.detailsForm.value.userFullName;
-    let email = this.detailsForm.value.userEmail;
-    let password = this.detailsForm.value.userPassword;
-    let tel = this.detailsForm.value.userTel;
+    let user_id: number = +localStorage.getItem('user_id'),
+        name = this.detailsForm.value.userFullName,
+        email = this.detailsForm.value.userEmail,
+        password = this.detailsForm.value.userPassword,
+        tel = this.detailsForm.value.userTel,
+        picture;
 
-    if (name == "" && email == "" && password == "" && tel == "") {
+    if (this.selectedPicture != null) {
+      picture = this.aws.uploadFile(this.selectedPicture, user_id, false);
+    } else {
+      picture = "";
+    }
+
+    if (name == "" && email == "" && password == "" && tel == "" && this.selectedPicture == null) {
       alert("There are no changes!");
     } else {
-      let id = +localStorage.getItem('user_id');
-      this.service.save(id, name, email, password, tel)
+      this.service.save(user_id, name, email, password, tel, await picture)
       .subscribe(
         (response) => {
           this.setIsEditing();
           this.detailsForm.reset();
 
           alert("User successfully updated!");
+          this.selectedPicture = null;
 
           window.location.reload();
         },
@@ -97,7 +115,10 @@ export class ProfiledetailsComponent implements OnInit {
     const userId = +this.route.snapshot.paramMap.get('id');
     this.service.getById(userId).subscribe(
       (response: User) => { 
-        this.user = response 
+        this.user = response;
+        if (this.user.picture == null) {
+          this.user.picture = "assets/default-user.jpg";
+        }
       },
       (error: HttpErrorResponse) => {
         console.log(error.message)

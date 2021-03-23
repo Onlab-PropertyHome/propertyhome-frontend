@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
 import { Observable, of } from 'rxjs';
@@ -9,8 +10,8 @@ export class AmazonService {
 
   constructor() { }
 
-  
-  FOLDER = 'ad-pics/'; // For example, 'my_folder'.
+  public url: string = "";
+  FOLDER = 'onlab-propertyhome/'; // For example, 'my_folder'.
   BUCKET = 'onlab-propertyhome-pictureservice'; // For example, 'my_bucket'.
 
   private getS3Bucket(): any {
@@ -23,8 +24,22 @@ export class AmazonService {
     );
   }
 
-  public uploadFile(file) : string {
-    let url = "";
+  public async uploadFile(f: File, user_id: number, isAd: boolean) {
+    let pipe = new DatePipe('en-US');
+    const now = Date.now();
+    const formattedDate = pipe.transform(now, 'yyyy-MM-dd-HH-mm-ss');
+
+    let f_extension = f.name.split('.')[1];
+    let f_name: string = "";
+    if (isAd) {
+      f_name = `${user_id}/ads/${formattedDate}.${f_extension}`;
+    } else {
+      f_name = `${user_id}/userpicture.${f_extension}`;
+    }
+    
+    let blob = f.slice(0, f.size, f.type);
+    let file = new File([blob], f_name, { type: f.type });
+
     const bucket = new S3(
       {
         accessKeyId: 'AKIA5Z4TMCK7WBUNHM5T',
@@ -40,17 +55,14 @@ export class AmazonService {
       ACL: 'public-read'
     };
 
-    bucket.upload(params, function (err, data) {
+    let mUpload = await bucket.upload(params, function (err, data) {
       if (err) {
         console.log('There was an error uploading your file: ', err);
-        
-        return false;
       }
-      console.log('Successfully uploaded file.', data.Location);
-      url = data.Location;
-      return true;
-    });
-    return url;
+      console.log('Successfully uploaded file.', data);
+    }).promise();
+
+    return mUpload.Location;
   }
 
   public getFiles(): Observable<Array<FileUpload>> {

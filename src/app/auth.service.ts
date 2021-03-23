@@ -45,7 +45,7 @@ export class AuthService {
     return this.httpClient.get<User>(`${this.baseUrl}user/${id}`);
   }
 
-  public save(id: number, name: string, email: string, password: string, tel: string): Observable<User> {
+  public save(id: number, name: string, email: string, password: string, tel: string, picture: string): Observable<User> {
     let headers_object = new HttpHeaders({
       'Content-Type': 'application/json',
        'Authorization': "Bearer " + localStorage.getItem('token')
@@ -53,7 +53,7 @@ export class AuthService {
 
     const options = {
       headers: headers_object,
-      params: new HttpParams().set('name', name).set('email', email).set('password', password).set('tel', tel)
+      params: new HttpParams().set('name', name).set('email', email).set('password', password).set('tel', tel).set('picture', picture)
     };
 
     return this.httpClient.put<User>(`${this.baseUrl}user/edit/${id}`, null, options);

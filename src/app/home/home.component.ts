@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   public searchForm: FormGroup;
   public noAds: boolean = false;
 
-  constructor(private service: AdvertisementService, private formBuilder: FormBuilder) {
+  constructor(private service: AdvertisementService, private authService: AuthService, private formBuilder: FormBuilder) {
     this.searchForm = formBuilder.group({
       inputSize: new FormControl('', []),
       inputRooms: new FormControl('', []),
@@ -78,5 +78,13 @@ export class HomeComponent implements OnInit {
         }
       }
     )
+  }
+
+  public likeAd(ad: Ad) {
+    console.log(ad.details);
+  }
+
+  public viewInfo(ad: Ad) {
+    console.log(ad.details);
   }
 }
