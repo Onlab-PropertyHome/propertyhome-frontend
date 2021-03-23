@@ -1,7 +1,9 @@
+import { NullTemplateVisitor } from '@angular/compiler';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdvertisementService } from '../advertisement.service';
+import { AmazonService } from '../amazon.service';
 import { AuthService } from '../auth.service';
 import { Ad } from '../models/ad';
 import { User } from '../models/user';
@@ -17,8 +19,9 @@ export class AdsComponent implements OnInit {
   private closeResult: string = '';
   public createAdForm: FormGroup;
   public fileChoosen: boolean = false;
+  public fileToUpload: File = null;
 
-  constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder) {
+  constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
     this.createAdForm = this.formBuilder.group({
       inputSize: new FormControl(),
       inputRoom: new FormControl(),
@@ -27,6 +30,7 @@ export class AdsComponent implements OnInit {
       inputDetails: new FormControl(),
       selectType: new FormControl(''),
       selectState: new FormControl('')
+      
     });
   }
 
@@ -66,6 +70,7 @@ export class AdsComponent implements OnInit {
   public onSelectFile(event) {
     if (event.target.files) {
       this.fileChoosen = true;
+      this.fileToUpload = event.target.files[0];
       let reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (e: any) => {
@@ -92,16 +97,19 @@ export class AdsComponent implements OnInit {
   }
 
   public add() {
+    
     let user_id: number = +localStorage.getItem('user_id'),
         size: number = this.createAdForm.value.inputSize,
         room: number = this.createAdForm.value.inputRoom,
         price = this.createAdForm.value.inputPrice,
-        // picture = this.url
+        picture = this.aws.uploadFile(this.fileToUpload),
         type: string = this.createAdForm.value.selectType,
         state: string = this.createAdForm.value.selectState,
         details: string = this.createAdForm.value.inputDetails;
+
+       
     
-    this.adService.add(user_id, size, room, price, type, state, details).subscribe(
+    this.adService.add(user_id, size, room, price, type, state, details, picture).subscribe(
       (result: Ad) => {
         this.refreshAds();
       },

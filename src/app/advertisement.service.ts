@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AmazonService } from './amazon.service';
 import { Ad } from './models/ad';
 
 @Injectable({
@@ -10,7 +11,7 @@ export class AdvertisementService {
 
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
   // private baseUrl: string = "http://localhost:8080/api/";
-
+//this.aws.uploadFile(file);
   constructor(private httpClient: HttpClient) { }
 
   public search(rooms: number, type: string, size: number, price: string) : Observable<Ad[]> {
@@ -39,7 +40,10 @@ export class AdvertisementService {
     return this.httpClient.get<Ad[]>(`${this.baseUrl}ad/find`, options);
   }
 
-  public add(user_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string) : Observable<Ad> {
+  public add(user_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string,picture: string) : Observable<Ad> {
+    
+      
+
     let headers_object = new HttpHeaders({
       'Content-Type': 'application/json',
        'Authorization': "Bearer " + localStorage.getItem('token')
@@ -47,7 +51,9 @@ export class AdvertisementService {
 
     let httpParams: HttpParams = new HttpParams()
       .set('price', price).set('location', "Budapest").set('details', details).set('roomNumber', roomNumber.toString())
-      .set('type', type).set('state', state).set('size', size.toString());
+      .set('type', type).set('state', state).set('size', size.toString())
+      .set('picture',picture);
+      
 
     const options = {
       headers: headers_object,
