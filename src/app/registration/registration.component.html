@@ -37,7 +37,8 @@
                     <label for="inputEmail" class="form-label">Email Address</label>
                     <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
                       placeholder="youremail@email.com" formControlName="inputEmail"
-                      [ngClass]="{'is-invalid': registerForm.get('inputEmail').touched && registerForm.get('inputEmail').invalid}">
+                      [ngClass]="{'is-invalid': registerForm.get('inputEmail').touched && registerForm.get('inputEmail').invalid}"
+                      ngModel email>
             
                     <div *ngIf="registerForm.get('inputEmail').touched && registerForm.get('inputEmail').invalid" class="invalid-feedback">
                       <div *ngIf="registerForm.get('inputEmail').errors.required">Email is required</div>
@@ -71,8 +72,9 @@
                   </div>
 
                   <div class="form-check mb-3">
-                    <input type="checkbox" class="form-check-input" id="acceptCheckbox">
-                    <label class="form-check-label" for="acceptCheckbox">Check this out if you agree to our User Agreement and Privacy Policy.</label>
+                    <mat-checkbox type="checkbox" class="form-check-input" id="acceptCheckbox" formControlName="Checkbox" (change)="fnc()">Check this y
+                      if you agree to our User Agreement and Privacy Policy</mat-checkbox>
+                    <label class="form-check-label" for="acceptCheckbox"></label>
                   </div>
 
                   <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="!registerForm.valid">Register</button>

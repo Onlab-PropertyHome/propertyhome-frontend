@@ -8,6 +8,8 @@ import { AuthResponse } from '../models/response';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -19,12 +21,14 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   validationMessage: string = null;
   public error_text: string;
+  checked : boolean = false;
 
   constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal) { 
     this.registerForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
         Validators.email
+        
       ]),
       inputName: new FormControl('', [
         Validators.required
@@ -36,12 +40,25 @@ export class RegistrationComponent implements OnInit {
       ]),
       inputPasswordConf: new FormControl('', [
         Validators.required
+      ]),
+      Checkbox: new FormControl('', [
+        Validators.required
       ])
     }, { validator: MustMatch('inputPassword', 'inputPasswordConf') });
   }
 
   ngOnInit(): void { }
 
+  public fnc(){
+   console.log("sajt");
+   
+   if(!this.checked){
+     this.checked = true;
+
+   }
+   else{this.checked = false;
+    this.registerForm.get('Checkbox').reset();}
+  }
   public open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop: "static", keyboard: false}).result
     .then((result) => { }, (reason) => { })

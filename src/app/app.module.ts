@@ -17,6 +17,8 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AdsComponent } from './ads/ads.component';
 import { AdvertisementService } from './advertisement.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -32,6 +34,7 @@ export function tokenGetter() {
     HomeComponent,
     PagenotfoundComponent,
     AdsComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,9 @@ export function tokenGetter() {
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    MatCheckboxModule,
+    
+    
     NgbAlertModule,
     JwtModule.forRoot({
       config: {

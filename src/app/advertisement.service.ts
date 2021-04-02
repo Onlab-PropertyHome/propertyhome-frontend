@@ -10,7 +10,7 @@ import { Ad } from './models/ad';
 export class AdvertisementService {
 
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
-  // private baseUrl: string = "http://localhost:8080/api/";
+   //private baseUrl: string = "http://localhost:8080/api/";
 //this.aws.uploadFile(file);
   constructor(private httpClient: HttpClient) { }
 
