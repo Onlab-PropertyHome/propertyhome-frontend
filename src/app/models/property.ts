@@ -17,5 +17,7 @@ export interface Property {
     roomNumber: number,
     type: string,
     state: string,
-    size: number
+    size: number,
+    latitude: number;
+    longitude: number
 }

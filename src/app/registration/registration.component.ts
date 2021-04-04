@@ -50,7 +50,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void { }
 
   public fnc(){
-   console.log("sajt");
+   
    
    if(!this.checked){
      this.checked = true;

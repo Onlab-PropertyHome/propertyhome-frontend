@@ -51,10 +51,14 @@ export class GoogleMapLocationChooserComponent implements OnInit {
     this.activeModal.close(sendData);
   }
 
-  saveLocation() {
-
+  saveLocation(){
+    const data = {
+      latitude: this.latitude,
+      longitude: this.longitude
+    }
+    console.log(`google map location chooser component: Lat: ${this.latitude}, Lng: ${this.longitude}`);
+    this.activeModal.close(data);
   }
-
   mapClicked(event: any) {
 
   }

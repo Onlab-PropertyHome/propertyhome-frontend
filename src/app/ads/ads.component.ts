@@ -22,6 +22,8 @@ export class AdsComponent implements OnInit {
   public createAdForm: FormGroup;
   public fileChoosen: boolean = false;
   private fileToUpload: File = null;
+  private latitude: number;
+  private longitude: number;
 
 
   constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
@@ -108,7 +110,7 @@ export class AdsComponent implements OnInit {
         state: string = this.createAdForm.value.selectState,
         details: string = this.createAdForm.value.inputDetails;
 
-    this.adService.add(user_id, size, room, price, type, state, details, await picture).subscribe(
+    this.adService.add(user_id, size, room, price, type, state, details, this.latitude, this.longitude, await picture).subscribe(
       (result: Ad) => {
         this.refreshAds();
       },
@@ -151,8 +153,10 @@ export class AdsComponent implements OnInit {
       keyboard: false 
     });
 
-    modalRef.result.then((result) => {
-      console.log(result);
+    modalRef.result.then((data) => {
+      console.log(`lat:${data.latitude} lng:${data.longitude}`);
+      this.latitude = data.latitude;
+      this.longitude = data.longitude;
     });
   }
 
