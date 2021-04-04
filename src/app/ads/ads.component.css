@@ -13,3 +13,7 @@
 ::placeholder {
   font-style: italic;
 };
+
+agm-map {
+  height: 200px;
+}

@@ -10,7 +10,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
-import { MapModule } from './map/map.module';
+
 import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
 import { HomeComponent } from './home/home.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
@@ -18,6 +18,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AdsComponent } from './ads/ads.component';
 import { AdvertisementService } from './advertisement.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AgmCoreModule } from '@agm/core';
+import { MapComponent } from './map/map.component';
 
 
 export function tokenGetter() {
@@ -34,18 +36,22 @@ export function tokenGetter() {
     HomeComponent,
     PagenotfoundComponent,
     AdsComponent,
-    
+    MapComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    MapModule,
+    
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
     MatCheckboxModule,
     
+    
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8'
+    }),
     
     NgbAlertModule,
     JwtModule.forRoot({

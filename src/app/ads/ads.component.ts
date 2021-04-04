@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 import { Ad } from '../models/ad';
 import { User } from '../models/user';
 
+
 @Component({
   selector: 'app-ads',
   templateUrl: './ads.component.html',
@@ -20,6 +21,10 @@ export class AdsComponent implements OnInit {
   public createAdForm: FormGroup;
   public fileChoosen: boolean = false;
   private fileToUpload: File = null;
+  private bpLat = 47.49801;
+  private bpLng = 19.03991;
+  private zoom = 12;
+
 
   constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
     this.createAdForm = this.formBuilder.group({
@@ -131,6 +136,11 @@ export class AdsComponent implements OnInit {
         alert(err_response.error.message);
       }
     )
+  }
+
+  mapClicked($event: any) {
+    console.log(`lat:${$event.coords.lat} lng:${$event.coords.lng}`)
+    
   }
 
 }
