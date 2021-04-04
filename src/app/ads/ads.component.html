@@ -59,8 +59,8 @@
       </div>
       <div class="mb-3">
         
-        <label class="form-label" for="locationbutton"> Choose your location.</label>
-        <button id = "locationbutton" class="btn btn-secondary btn-sm" (click)="open(chooselocation)">Choose location.</button>
+        <label class="form-label" for="locationbutton"> Choose your location</label>
+        <button id = "locationbutton" class="btn btn-secondary btn-sm" (click)="openLocationChooser()">Choose location</button>
       </div>
     </form>
   </div>
@@ -85,30 +85,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close('yes')">Yes</button>
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
-  </div>
-</ng-template>
-
-
-
-
-
-<ng-template #chooselocation let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-title">Choose the location of your property!</h4>
-    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <agm-map (mapClick)="mapClicked($event)"
-    [latitude]="lat"
-    [longitude]="lng"
-    [zoom]="zoom">
-
-    </agm-map>
-  </div>
-  <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
   </div>
 </ng-template>

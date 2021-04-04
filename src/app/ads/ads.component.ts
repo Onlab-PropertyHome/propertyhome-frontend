@@ -5,6 +5,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdvertisementService } from '../advertisement.service';
 import { AmazonService } from '../amazon.service';
 import { AuthService } from '../auth.service';
+import { GoogleMapLocationChooserComponent } from '../google-map-location-chooser/google-map-location-chooser.component';
 import { Ad } from '../models/ad';
 import { User } from '../models/user';
 
@@ -21,9 +22,6 @@ export class AdsComponent implements OnInit {
   public createAdForm: FormGroup;
   public fileChoosen: boolean = false;
   private fileToUpload: File = null;
-  private bpLat = 47.49801;
-  private bpLng = 19.03991;
-  private zoom = 12;
 
 
   constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
@@ -141,6 +139,21 @@ export class AdsComponent implements OnInit {
   mapClicked($event: any) {
     console.log(`lat:${$event.coords.lat} lng:${$event.coords.lng}`)
     
+  }
+
+  openLocationChooser() {
+    const modalRef = this.modalService.open(GoogleMapLocationChooserComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      size: "lg",
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.result.then((result) => {
+      console.log(result);
+    });
   }
 
 }

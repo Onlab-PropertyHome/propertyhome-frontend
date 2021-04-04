@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Choose the location of your property!</h4>
+    <button type="button" class="close" aria-label="Close button" aria-describedby="modal-title"
+        (click)="closeModal('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div id="pac-container" class="mb-3">
+        <input #search id="pac-input" type="text" placeholder="Enter a location">
+    </div>
+
+    <agm-map (mapClick)="mapClicked($event)"
+      [latitude]="bpLat"
+      [longitude]="bpLng"
+      [zoom]="zoom">
+  
+      </agm-map>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="closeModal('cancel')">Cancel</button>
+</div>

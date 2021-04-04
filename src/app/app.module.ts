@@ -20,6 +20,7 @@ import { AdvertisementService } from './advertisement.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AgmCoreModule } from '@agm/core';
 import { MapComponent } from './map/map.component';
+import { GoogleMapLocationChooserComponent } from './google-map-location-chooser/google-map-location-chooser.component';
 
 
 export function tokenGetter() {
@@ -37,6 +38,7 @@ export function tokenGetter() {
     PagenotfoundComponent,
     AdsComponent,
     MapComponent,
+    GoogleMapLocationChooserComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,11 @@ export function tokenGetter() {
     
     
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8'
+      // AIzaSyAF_X3Ikvvllsi4OJTPAMK3FbwE4yxe1PE új
+      // AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8 régi
+      apiKey: 'AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8',
+      libraries: ["places"],
+      apiVersion: 'quarterly'
     }),
     
     NgbAlertModule,
