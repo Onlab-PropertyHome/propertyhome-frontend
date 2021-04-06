@@ -32,13 +32,13 @@ export class AmazonService {
     let f_extension = f.name.split('.')[1];
     let f_name: string = "";
     if (isAd) {
-      f_name = `${user_id}/ads/${formattedDate}.${f_extension}`;
+      f_name = `${user_id}/ads/${formattedDate}.png`;
     } else {
-      f_name = `${user_id}/userpicture.${f_extension}`;
+      f_name = `${user_id}/userpicture.png`;
     }
     
     let blob = f.slice(0, f.size, f.type);
-    let file = new File([blob], f_name, { type: f.type });
+    let file = new File([blob], f_name, { type: 'image/png' });
 
     const bucket = new S3(
       {
@@ -63,6 +63,56 @@ export class AmazonService {
     }).promise();
 
     return mUpload.Location;
+  }
+
+  public deleteFolder(user_id: number) {
+    /* TODO
+    const bucket = new S3(
+      {
+        accessKeyId: 'AKIA5Z4TMCK7WBUNHM5T',
+        secretAccessKey: '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',
+        region: 'eu-central-1'
+      }
+    );
+
+    const params = {
+      Bucket: this.BUCKET,
+      Key: this.FOLDER + '/' + user_id
+    }
+
+    this.getS3Bucket().listObjects(params, (err, data) => {
+      if (err) {
+        console.log(`Error`);
+        return;
+      }
+
+      if (data.Contents.length == 0) {
+        console.log(`data = 0`);
+        return;
+      }
+
+      const params2 = {
+        Bucket: this.BUCKET,
+        Delete: {
+          Objects: []
+        }
+      };
+
+      data.Contents.forEach(function(content) {
+        params2.Delete.Objects.push({Key: content.Key});
+      });
+
+      this.getS3Bucket().deleteObjects(params2, function(err, data) {
+        if (err) {
+          console.log(`Error: deleting`);
+          return;
+        }
+        else {
+          console.log(`hello`);
+          return;
+        }
+      });
+    })*/
   }
 
   public getFiles(): Observable<Array<FileUpload>> {
@@ -107,8 +157,6 @@ export class AmazonService {
       console.log('Successfully deleted file.');
     });
   }
-
-  
 }
 
 class FileUpload {

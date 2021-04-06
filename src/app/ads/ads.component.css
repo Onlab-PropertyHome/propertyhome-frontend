@@ -10,10 +10,10 @@
   margin-right: auto;
 }
 
+.form-label {
+  font-weight: bold;
+}
+
 ::placeholder {
   font-style: italic;
 };
-
-agm-map {
-  height: 200px;
-}

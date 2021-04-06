@@ -7,7 +7,7 @@
 </div>
 <div class="modal-body">
     <div id="pac-container" class="mb-3">
-        <input #search id="pac-input" type="text" placeholder="Enter a location">
+        <input #search id="pac-input" type="text" class="form-control" placeholder="Enter a location" onClick="this.setSelectionRange(0, this.value.length)" value="{{isLocationChoosen() ? location : ''}}">
     </div>
 
     <agm-map (mapReady)="mapReadyHandler($event)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">

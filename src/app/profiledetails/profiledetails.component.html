@@ -58,10 +58,10 @@
                         </div>
                         <div class="mb-3" *ngIf="getIsEditing()">
                             <label for="userPic" class="form-label">Picture</label>
-                            <input class="form-control" type="file" id="userPic" formControlName="userPic" (change)="onSelectFile($event)">
+                            <input type="file" id="userPic" formControlName="userPic" accept="image/*" (change)="onSelectFile($event)">
                         </div>
                         <div class="mb-3" *ngIf="getIsEditing()">
-                          <button class="btn btn-danger btn-sm w-100 mb-3" (click)="delete()">Delete profile</button>
+                          <button class="btn btn-danger btn-sm w-100 mb-3" (click)="openDeleteModal()">Delete profile</button>
                           <div class="d-flex bd-highlight">
                             <button class="btn btn-primary w-50 mb-3 mr-1" (click)="save(detailsForm)">Save</button>
                             <button class="btn btn-secondary w-50 mb-3 ml-1" (click)="cancel()">Cancel</button>  

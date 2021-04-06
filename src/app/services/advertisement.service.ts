@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AmazonService } from './amazon.service';
-import { Ad } from './models/ad';
+import { Ad } from '../models/ad';
 
 @Injectable({
   providedIn: 'root'
@@ -41,9 +40,6 @@ export class AdvertisementService {
   }
 
   public add(user_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string, location:string, latitude:number, longitude:number, picture: string) : Observable<Ad> {
-    
-    console.log(`Modal: Lat: ${latitude}, Lng: ${longitude}`);
-
     let headers_object = new HttpHeaders({
       'Content-Type': 'application/json',
        'Authorization': "Bearer " + localStorage.getItem('token')
@@ -56,9 +52,6 @@ export class AdvertisementService {
       .set('lat',latitude.toString())
       .set('lng',longitude.toString());
       
-
-      
-
     const options = {
       headers: headers_object,
       params: httpParams
@@ -66,12 +59,8 @@ export class AdvertisementService {
 
     return this.httpClient.post<Ad>(`${this.baseUrl}user/${user_id}/addad`, null, options);
   }
-
-
+  
   public edit(ad_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string, location:string, latitude:number, longitude:number, picture: string) : Observable<Ad> {
-    
-    
-
     let headers_object = new HttpHeaders({
       'Content-Type': 'application/json',
        'Authorization': "Bearer " + localStorage.getItem('token')
@@ -92,10 +81,6 @@ export class AdvertisementService {
 
     return this.httpClient.put<Ad>(`${this.baseUrl}ad/edit/${ad_id}`, null, options);
   }
-
-
-
-
 
   public delete(id: number) {
     let headers_object = new HttpHeaders({

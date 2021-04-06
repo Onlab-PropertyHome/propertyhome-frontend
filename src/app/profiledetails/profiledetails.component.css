@@ -24,3 +24,7 @@
 input, label {
   display: block;
 }
+
+#canvas {
+  border: 1px solid blue;
+}

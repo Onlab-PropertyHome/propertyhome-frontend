@@ -1,7 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AdvertisementService } from '../advertisement.service';
-import { AuthService } from '../auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdvertisementService } from '../services/advertisement.service';
+import { AuthService } from '../services/auth.service';
+import { AdDetailsComponent } from '../modals/ad-details/ad-details.component';
+import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { Ad } from '../models/ad';
 import { User } from '../models/user';
 
@@ -19,7 +23,7 @@ export class HomeComponent implements OnInit {
   public noAds: boolean = false;
   private user: User = null;
 
-  constructor(private service: AdvertisementService, private authService: AuthService, private formBuilder: FormBuilder) {
+  constructor(private service: AdvertisementService, private authService: AuthService, private formBuilder: FormBuilder, private modalService: NgbModal) {
     this.searchForm = formBuilder.group({
       inputSize: new FormControl('', []),
       inputRooms: new FormControl('', []),
@@ -36,6 +40,23 @@ export class HomeComponent implements OnInit {
       }
     );
     this.search();
+  }
+
+  public openInfoModal(title: string, text: string) {
+    const modalRef = this.modalService.open(InfoModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.componentInstance.modal_title = title;
+    modalRef.componentInstance.modal_text = text;
+
+    modalRef.result.then((data) => {
+      console.log(`InfoModalComponent has been closed with: ${data}`);
+    });
   }
 
   public getNoAds() : boolean {
@@ -76,13 +97,13 @@ export class HomeComponent implements OnInit {
         this.setNoAds(false);
         this.ads = response;
       },
-      (err_response) => {
+      (err_response: HttpErrorResponse) => {
         this.ads = [];
         if (err_response.error.message == "Ad is not found") {
           this.setNoAds(true);
         }
         else {
-          alert(err_response.error.message);
+          this.openInfoModal('Error', err_response.error.message);
         }
       }
     )
@@ -128,8 +149,8 @@ export class HomeComponent implements OnInit {
       (response) => {
         window.location.reload();
       },
-      (err_response) => {
-        alert(err_response.error.message);
+      (err_response: HttpErrorResponse) => {
+        this.openInfoModal('Error', err_response.error.message);
       }
     )
   }
@@ -140,13 +161,26 @@ export class HomeComponent implements OnInit {
       (response) => {
         window.location.reload();
       },
-      (err_response) => {
-        alert(err_response.error.message);
+      (err_response: HttpErrorResponse) => {
+        this.openInfoModal('Error', err_response.error.message);
       }
     )
   }
 
   public viewInfo(ad: Ad) {
-    console.log(ad.details);
+    const modalRef = this.modalService.open(AdDetailsComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      size: "lg",
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.componentInstance.currentAd = ad;
+
+    modalRef.result.then((data) => {
+      console.log(`AdDetailsComponent has been closed with: ${data}`);
+    });
   }
 }

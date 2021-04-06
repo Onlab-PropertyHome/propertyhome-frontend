@@ -1,10 +1,11 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
+import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { AuthResponse } from '../models/response';
 
 @Component({
@@ -13,11 +14,14 @@ import { AuthResponse } from '../models/response';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @ViewChild('errormodal') errormodal;
   loginForm: FormGroup;
-  public error_text = "";
 
-  constructor(private service: AuthService, private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal) {     
+  constructor(
+    private service: AuthService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private modalService: NgbModal
+    ) {     
     this.loginForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
@@ -37,14 +41,33 @@ export class LoginComponent implements OnInit {
     .then((result) => { }, (reason) => { })
   }
 
+  public openInfoModal(title: string, text: string) {
+    const modalRef = this.modalService.open(InfoModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.componentInstance.modal_title = title;
+    modalRef.componentInstance.modal_text = text;
+
+    modalRef.result.then((data) => {
+      console.log(`InfoModalComponent has been closed with: ${data}`);
+    });
+  }
+
   public loginNow(formValues: FormGroup) {
     if (!formValues.valid) {
       console.log('Form is invalid');
       return;
     }
 
-    let response = this.service.login(formValues.value.inputEmail, formValues.value.inputPassword);
-    response.subscribe(
+    this.service.login(
+      formValues.value.inputEmail,
+      formValues.value.inputPassword
+      ).subscribe(
       (response: AuthResponse) => {
         console.log(response.jwt);
         localStorage.setItem('token', response.jwt);
@@ -61,8 +84,8 @@ export class LoginComponent implements OnInit {
         if (err_response.status == 404) {
           this.loginForm.reset();
         }
-        this.error_text = err_response.error.message;
-        this.open(this.errormodal);
+
+        this.openInfoModal('Error', err_response.error.message);
       }
     )
   }

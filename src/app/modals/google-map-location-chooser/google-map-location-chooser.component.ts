@@ -1,6 +1,7 @@
 import { MapsAPILoader } from '@agm/core';
-import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfoModalComponent } from '../info-modal/info-modal.component';
 
 @Component({
   selector: 'app-google-map-location-chooser',
@@ -12,17 +13,20 @@ export class GoogleMapLocationChooserComponent implements OnInit {
   public latitude = 47.49801;
   public longitude = 19.03991;
   private geoCoder;
-  private location: string = "";
+  public location: string = null;
   private map;
-  private infoWindow;
   
   @ViewChild('search')
   public searchElementRef: ElementRef;
 
+  @Input('search')
+  public searchBox;
+
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -49,8 +53,29 @@ export class GoogleMapLocationChooserComponent implements OnInit {
     });
   }
 
+  public openInfoModal(title: string, text: string) {
+    const modalRef = this.modalService.open(InfoModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.componentInstance.modal_title = title;
+    modalRef.componentInstance.modal_text = text;
+
+    modalRef.result.then((data) => {
+      console.log(`InfoModalComponent has been closed with: ${data}`);
+    });
+  }
+
   closeModal(sendData) {
     this.activeModal.close(sendData);
+  }
+
+  public isLocationChoosen() {
+    return location;
   }
 
   private setCurrentLocation() {
@@ -70,6 +95,7 @@ export class GoogleMapLocationChooserComponent implements OnInit {
     this.latitude = $event.latLng.lat();
     this.longitude = $event.latLng.lng();
     this.getAddress(this.latitude, this.longitude);
+    this.searchBox.value = this.location;  
   }
 
   getAddress(latitude, longitude) {
@@ -83,10 +109,10 @@ export class GoogleMapLocationChooserComponent implements OnInit {
           
           console.log(`Location: ${this.location}`);
         } else {
-          window.alert('No results found');
+          this.openInfoModal('Error', 'No results found');
         }
       } else {
-        window.alert('Geocoder failed due to: ' + status);
+        this.openInfoModal('Error', 'Geocoder failed due to: ' + status);
       }
  
     });
@@ -99,7 +125,7 @@ export class GoogleMapLocationChooserComponent implements OnInit {
       longitude: this.longitude
     }
     console.log(`google map location chooser component: Lat: ${this.latitude}, Lng: ${this.longitude}`);
-    this.activeModal.close(data);
+    this.closeModal(data);
   }
 
   public mapReadyHandler(map: google.maps.Map): void {
@@ -108,6 +134,7 @@ export class GoogleMapLocationChooserComponent implements OnInit {
       this.ngZone.run(() => {
         this.latitude = e.latLng.lat();
         this.longitude = e.latLng.lng();
+        this.getAddress(this.latitude, this.longitude);
       });
     });
   }

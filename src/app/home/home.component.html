@@ -95,17 +95,32 @@
                 </div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">{{ad.price}}</li>
-                  <li class="list-group-item">Méret:{{ad.property.size}} m<sup>2</sup></li>
+                  <li class="list-group-item">Méret: {{ad.property.size}} m<sup>2</sup></li>
                   <li class="list-group-item">Szobák száma: {{ad.property.roomNumber}}</li>
                 </ul>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-6" style="text-align: center;">
-                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="likeAd(ad)" *ngIf="!isAdLiked(ad) && !isOwnAd(ad)">&#10025;</a>
-                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="dislikeAd(ad)" *ngIf="isAdLiked(ad) && !isOwnAd(ad)">&#9733;</a>
+                    <div class="row" *ngIf="!isOwnAd(ad)">
+                        <!-- <div class="col-6" style="text-align: center;">
+                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="likeAd(ad)" *ngIf="!isAdLiked(ad)">&#10025;</a>
+                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="dislikeAd(ad)" *ngIf="isAdLiked(ad)">&#9733;</a>
                         </div>
                         <div class="col-6" style="text-align: center;">
                             <a role="button" class="card-link" style="font-size: xx-large;" (click)="viewInfo(ad)">&#10509;</a>
+                        </div> -->
+                        <div class="col-6" style="text-align: center;">
+                            <button type="button" class="btn btn-outline-primary w-100" (click)="likeAd(ad)" *ngIf="!isAdLiked(ad)">Like</button>
+                            <button type="button" class="btn btn-primary w-100" (click)="dislikeAd(ad)" *ngIf="isAdLiked(ad)">Like</button>
+                        </div>
+                        <div class="col-6" style="text-align: center;">
+                            <button type="button" class="btn btn-outline-secondary w-100" (click)="viewInfo(ad)">Info</button>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="isOwnAd(ad)">
+                        <!-- <div class="col-12" style="text-align: center;">
+                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="viewInfo(ad)">&#10509;</a>
+                        </div> -->
+                        <div class="col-12" style="text-align: center;">
+                            <button type="button" class="btn btn-outline-secondary w-100" (click)="viewInfo(ad)">Info</button>
                         </div>
                     </div>
                 </div>

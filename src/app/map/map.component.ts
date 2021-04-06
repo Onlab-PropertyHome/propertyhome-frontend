@@ -1,6 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
-import { AgmCoreModule } from '@agm/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 import { Marker } from '../models/marker';
 
 @Component({

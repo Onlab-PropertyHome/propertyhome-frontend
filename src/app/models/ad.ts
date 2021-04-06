@@ -7,4 +7,4 @@ export interface Ad {
     price: string,
     location: string,
     details: string
-}
+} 
