@@ -67,6 +67,36 @@ export class AdvertisementService {
     return this.httpClient.post<Ad>(`${this.baseUrl}user/${user_id}/addad`, null, options);
   }
 
+
+  public edit(ad_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string, location:string, latitude:number, longitude:number, picture: string) : Observable<Ad> {
+    
+    
+
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    let httpParams: HttpParams = new HttpParams()
+      .set('price', price).set('location', location).set('details', details).set('roomNumber', roomNumber.toString())
+      .set('type', type).set('state', state).set('size', size.toString())
+      .set('picture',picture)
+      .set('lat',latitude.toString())
+      .set('lng',longitude.toString());
+      
+
+    const options = {
+      headers: headers_object,
+      params: httpParams
+    };
+
+    return this.httpClient.put<Ad>(`${this.baseUrl}ad/edit/${ad_id}`, null, options);
+  }
+
+
+
+
+
   public delete(id: number) {
     let headers_object = new HttpHeaders({
       'Content-Type': 'application/json',

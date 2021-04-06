@@ -20,11 +20,13 @@ export class AdsComponent implements OnInit {
   public url: string = "";
   private closeResult: string = '';
   public createAdForm: FormGroup;
+  public editAdForm: FormGroup;
   public fileChoosen: boolean = false;
   private fileToUpload: File = null;
   private location: string;
-  private latitude: number;
-  private longitude: number;
+  private latitude: number = null;
+  private longitude: number = null;
+  public temp?:Ad;
 
 
   constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
@@ -37,14 +39,38 @@ export class AdsComponent implements OnInit {
       selectType: new FormControl(''),
       selectState: new FormControl('')
     });
+
+    this.editAdForm = this.formBuilder.group({
+      inputSize: new FormControl(),
+      inputRoom: new FormControl(),
+      inputPrice: new FormControl(),
+      formFile: new FormControl(),
+      inputDetails: new FormControl(),
+      selectType: new FormControl(''),
+      selectState: new FormControl('')
+    });
   }
 
+
+  public removeenter(event){
+    let x = event.which||event.keyCode;
+    if(x == '13')
+      event.preventDefault();
+  }
   public open(content, ad?: Ad) {
+    if(ad != null)
+      this.temp = ad;
+    
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, scrollable: true, size: "lg", backdrop: "static", keyboard: false }).result
     .then((result) => {
       if (result == 'add') {
         this.fileChoosen = false;
         this.add();
+        this.createAdForm.reset();
+      }
+      if (result == 'edit') {
+        this.fileChoosen = false;
+        this.edit(this.temp);
         this.createAdForm.reset();
       }
 
@@ -122,7 +148,26 @@ export class AdsComponent implements OnInit {
   }
 
   public edit(ad: Ad) {
-    // TODO
+    let ad_id: number = ad.ad_id,
+    size: number = (this.editAdForm.value.inputSize == "" || this.editAdForm.value.inputSize == null)? ad.property.size : this.editAdForm.value.inputSize,
+    picture: string = ad.picture,
+    room: number = (this.editAdForm.value.inputRoom == "" || this.editAdForm.value.inputRoom == null)? ad.property.roomNumber : this.editAdForm.value.inputRoom,
+    price: string = this.editAdForm.value.inputPrice == "" ? ad.price : this.editAdForm.value.inputPrice,
+    type: string = this.editAdForm.value.selectType == "" ? ad.property.type : this.editAdForm.value.selectType,
+    state: string = this.editAdForm.value.selectState == "" ? ad.property.state : this.editAdForm.value.selectState,
+    latitude: number = (!this.latitude) ? ad.property.lat : this.latitude,
+    longitude: number = (!this.longitude) ? ad.property.lng : this.longitude,
+    details: string = this.editAdForm.value.inputDetails == "" ? ad.details : this.editAdForm.value.inputDetails;
+    console.log(ad.property.lat);
+    console.log(latitude);
+    this.adService.edit(ad_id,size,room,price,type,state,details,this.location,latitude,longitude,picture).subscribe(
+      (result: Ad) => {
+        this.refreshAds();
+      },
+      (err_response) => {
+        alert(err_response.error.message);
+      }
+    )
   }
 
   public delete(ad: Ad) {

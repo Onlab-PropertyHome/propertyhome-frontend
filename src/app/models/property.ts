@@ -18,6 +18,6 @@ export interface Property {
     type: string,
     state: string,
     size: number,
-    latitude: number;
-    longitude: number
+    lat: number;
+    lng: number
 }
