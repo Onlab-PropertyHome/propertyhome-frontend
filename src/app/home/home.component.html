@@ -59,12 +59,12 @@
                             </div> -->
                             <div class="col-lg-4 col-md-6 col-sm-12 p-0 ml-1 mr-1">
                                 <select class="form-control search-slt" id="formSelectPriceRange" name="formSelectPriceRange" formControlName="selectPriceRange">
-                                    <option value="100000+">Above $100.000</option>
                                     <option value="0-20000">$0 - $20.000</option>
                                     <option value="20000-40000">$20.000 - $40.000</option>
                                     <option value="40000-60000">$40.000 - $60.000</option>
                                     <option value="60000-80000">$60.000 - $80.000</option>
                                     <option value="80000-100000">$80.000 - $100.000</option>
+                                    <option value="100000+">Above $100.000</option>
                                 </select>
                             </div>
                             <div class="col-lg-1 col-md-3 col-sm-12 p-0 ml-1">
@@ -101,7 +101,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6" style="text-align: center;">
-                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="likeAd(ad)">&#9829;</a>
+                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="likeAd(ad)" *ngIf="!isAdLiked(ad) && !isOwnAd(ad)">&#10025;</a>
+                            <a role="button" class="card-link" style="font-size: xx-large;" (click)="dislikeAd(ad)" *ngIf="isAdLiked(ad) && !isOwnAd(ad)">&#9733;</a>
                         </div>
                         <div class="col-6" style="text-align: center;">
                             <a role="button" class="card-link" style="font-size: xx-large;" (click)="viewInfo(ad)">&#10509;</a>

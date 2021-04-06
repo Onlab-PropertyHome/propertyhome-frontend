@@ -40,7 +40,7 @@ export class AdvertisementService {
     return this.httpClient.get<Ad[]>(`${this.baseUrl}ad/find`, options);
   }
 
-  public add(user_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string,latitude:number, longitude:number, picture: string) : Observable<Ad> {
+  public add(user_id: number, size: number, roomNumber: number, price: string, type: string, state: string, details: string, location:string, latitude:number, longitude:number, picture: string) : Observable<Ad> {
     
     console.log(`Modal: Lat: ${latitude}, Lng: ${longitude}`);
 
@@ -50,7 +50,7 @@ export class AdvertisementService {
     });
 
     let httpParams: HttpParams = new HttpParams()
-      .set('price', price).set('location', "Budapest").set('details', details).set('roomNumber', roomNumber.toString())
+      .set('price', price).set('location', location).set('details', details).set('roomNumber', roomNumber.toString())
       .set('type', type).set('state', state).set('size', size.toString())
       .set('picture',picture)
       .set('lat',latitude.toString())

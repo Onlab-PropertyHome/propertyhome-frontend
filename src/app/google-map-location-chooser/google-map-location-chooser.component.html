@@ -10,12 +10,9 @@
         <input #search id="pac-input" type="text" placeholder="Enter a location">
     </div>
 
-    <agm-map (mapClick)="mapClicked($event)"
-      [latitude]="bpLat"
-      [longitude]="bpLng"
-      [zoom]="zoom">
-  
-      </agm-map>
+    <agm-map (mapReady)="mapReadyHandler($event)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+    </agm-map>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="saveLocation()">Save</button>

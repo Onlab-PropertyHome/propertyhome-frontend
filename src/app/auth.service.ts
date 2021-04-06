@@ -71,4 +71,45 @@ export class AuthService {
 
     return this.httpClient.delete(`${this.baseUrl}user/delete/${id}`, options);
   }
+
+  public addToFav(user_id: number, ad_id: number): Observable<User> {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    const options = {
+      headers: headers_object,
+      params: new HttpParams().set('ad_id', ad_id.toString())
+    };
+
+    return this.httpClient.put<User>(`${this.baseUrl}user/${user_id}/favorites/add`, null, options);
+  }
+
+  public getFavAds(user_id: number) : Observable<number[]> {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    const options = {
+      headers: headers_object
+    };
+
+    return this.httpClient.get<number[]>(`${this.baseUrl}user/${user_id}/favorites`);
+  }
+
+  public deleteAdFromFav(user_id: number, ad_id: number) : Observable<User> {
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });
+
+    const options = {
+      headers: headers_object,
+      params: new HttpParams().set('ad_id', ad_id.toString())
+    };
+
+    return this.httpClient.put<User>(`${this.baseUrl}user/${user_id}/favorites/delete`, null, options);
+  }
 }

@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AdvertisementService } from '../advertisement.service';
 import { AuthService } from '../auth.service';
 import { Ad } from '../models/ad';
-import { Property } from '../models/property';
+import { User } from '../models/user';
 
 
 @Component({
@@ -17,17 +17,25 @@ export class HomeComponent implements OnInit {
   public ads: Ad[] = [];
   public searchForm: FormGroup;
   public noAds: boolean = false;
+  private user: User = null;
 
   constructor(private service: AdvertisementService, private authService: AuthService, private formBuilder: FormBuilder) {
     this.searchForm = formBuilder.group({
       inputSize: new FormControl('', []),
       inputRooms: new FormControl('', []),
       selectType: new FormControl('', []),
-      selectPriceRange: new FormControl('100000+', [])
+      selectPriceRange: new FormControl('0-20000', [])
     });
   }
 
   ngOnInit(): void {
+    const user_id: number = +localStorage.getItem('user_id');
+    this.authService.getById(user_id).subscribe(
+      (response: User) => { 
+        this.user = response;
+      }
+    );
+    this.search();
   }
 
   public getNoAds() : boolean {
@@ -80,8 +88,62 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  public isAdLiked(ad: Ad) : boolean {
+    if (this.user == null || this.user.favAds.length == 0) {
+      return false;
+    }
+
+    let b = false;
+
+    this.user.favAds.forEach(ad_id => {
+      if (ad.ad_id == ad_id) {
+        b = true;
+        return;
+      }
+    });
+
+    return b ? true : false;
+  }
+
+  public isOwnAd(ad: Ad) : boolean {
+    if (this.user == null || this.user.ads.length == 0) {
+      return false;
+    }
+
+    let b = false;
+
+    this.user.ads.forEach(ad_element => {
+      if (ad.ad_id == ad_element.ad_id) {
+        b = true;
+        return;
+      }
+    });
+
+    return b ? true : false;
+  }
+
   public likeAd(ad: Ad) {
-    console.log(ad.details);
+    const user_id: number = +localStorage.getItem('user_id');
+    this.authService.addToFav(user_id, ad.ad_id).subscribe(
+      (response) => {
+        window.location.reload();
+      },
+      (err_response) => {
+        alert(err_response.error.message);
+      }
+    )
+  }
+
+  public dislikeAd(ad: Ad) {
+    const user_id: number = +localStorage.getItem('user_id');
+    this.authService.deleteAdFromFav(user_id, ad.ad_id).subscribe(
+      (response) => {
+        window.location.reload();
+      },
+      (err_response) => {
+        alert(err_response.error.message);
+      }
+    )
   }
 
   public viewInfo(ad: Ad) {
