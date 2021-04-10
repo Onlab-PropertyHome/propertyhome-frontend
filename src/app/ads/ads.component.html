@@ -172,13 +172,13 @@
             <h4 class="mb-0 col-6">Your ads</h4>
             <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;"
               *ngIf="isMobile">
-              <button class="btn btn-secondary btn-sm" (click)="open(createad)">
+              <button class="btn btn-secondary btn-sm" (click)="openAddAdModal()">
                 <i class="material-icons">add</i>
               </button>
             </div>
             <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;"
               *ngIf="!isMobile">
-              <button class="btn btn-secondary btn-sm" (click)="open(createad)">Add new ad</button>
+              <button class="btn btn-secondary btn-sm" (click)="openAddAdModal()">Add new ad</button>
             </div>
           </div>
         </div>

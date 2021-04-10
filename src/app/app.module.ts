@@ -22,6 +22,7 @@ import { AdDetailsComponent } from './modals/ad-details/ad-details.component';
 import { DeleteModalComponent } from './modals/delete-modal/delete-modal.component';
 import { GoogleMapLocationChooserComponent } from './modals/google-map-location-chooser/google-map-location-chooser.component';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
+import { AddAdModalComponent } from './modals/add-ad-modal/add-ad-modal.component';
 
 
 export function tokenGetter() {
@@ -43,6 +44,7 @@ export function tokenGetter() {
     AdDetailsComponent,
     DeleteModalComponent,
     InfoModalComponent,
+    AddAdModalComponent,
   ],
   imports: [
     BrowserModule,

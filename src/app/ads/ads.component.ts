@@ -10,6 +10,7 @@ import { Ad } from '../models/ad';
 import { User } from '../models/user';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AddAdModalComponent } from '../modals/add-ad-modal/add-ad-modal.component';
 
 
 @Component({
@@ -70,6 +71,25 @@ export class AdsComponent implements OnInit {
     modalRef.componentInstance.modal_text = text;
 
     modalRef.result.then((data) => {
+      console.log(`InfoModalComponent has been closed with: ${data}`);
+    });
+  }
+
+  public openAddAdModal() {
+    const modalRef = this.modalService.open(AddAdModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+
+  
+
+    modalRef.result.then((data) => {
+      if(data){
+       this.refreshAds();
+      }
       console.log(`InfoModalComponent has been closed with: ${data}`);
     });
   }
