@@ -6,27 +6,22 @@ import { Ad } from 'src/app/models/ad';
 import { AdvertisementService } from 'src/app/services/advertisement.service';
 import { AmazonService } from 'src/app/services/amazon.service';
 import { GoogleMapLocationChooserComponent } from '../google-map-location-chooser/google-map-location-chooser.component';
+import { InfoModalComponent } from '../info-modal/info-modal.component';
 
 @Component({
   selector: 'app-add-ad-modal',
   templateUrl: './add-ad-modal.component.html',
   styleUrls: ['./add-ad-modal.component.css']
 })
-
-
 export class AddAdModalComponent implements OnInit {
-
   public createAdForm: FormGroup;
   public fileChoosen = false;
   private fileToUpload: File = null;
   private location: string = null;
   private latitude: number = null;
   private longitude: number = null;
-  public temp?: Ad;
-  public isMobile = false;
-  public windowWidth: number;
   public url: string = "";
-
+  private newAd: Ad;
 
   constructor(private aws: AmazonService, private adService: AdvertisementService, private ActiveModal: NgbActiveModal, private formBuilder: FormBuilder, private modalService: NgbModal) {
     this.createAdForm = this.formBuilder.group({
@@ -55,17 +50,38 @@ export class AddAdModalComponent implements OnInit {
         this.location = null;
         this.latitude = null;
         this.longitude = null;
+        this.ActiveModal.close(result);
+        this.openInfoModal("Info", "Ad created successfully");
       },
       (err_response: HttpErrorResponse) => {
+        this.openInfoModal("Error", err_response.error.message);
       }
     );
   }
 
+  public openInfoModal(title: string, text: string) {
+    const modalRef = this.modalService.open(InfoModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.componentInstance.modal_title = title;
+    modalRef.componentInstance.modal_text = text;
+
+    modalRef.result.then((data) => {
+      console.log(`AddAdModalComponent has been closed with: ${data}`);
+    });
+  }
+
   closeModal(sendData) {
-    if(sendData){
+    if (sendData == 'add') {
       this.add();
+    } else {
+      this.ActiveModal.close(sendData);
     }
-    this.ActiveModal.close(sendData);
   }
 
   onSelectFile(event) {
@@ -79,6 +95,7 @@ export class AddAdModalComponent implements OnInit {
       }
     }
   };
+
   openLocationChooser() {
     const modalRef = this.modalService.open(GoogleMapLocationChooserComponent, {
       ariaLabelledBy: 'modal-basic-title',
@@ -98,8 +115,10 @@ export class AddAdModalComponent implements OnInit {
       }
     });
   };
-  isLocationChosen() { return this.location; }
-  ngOnInit(): void {
-  }
 
+  isLocationChosen() { return this.location; }
+
+  ngOnInit(): void {
+
+  }
 }

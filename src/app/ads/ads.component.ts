@@ -87,8 +87,8 @@ export class AdsComponent implements OnInit {
   
 
     modalRef.result.then((data) => {
-      if(data){
-       this.refreshAds();
+      if(data) {
+        this.refreshAds();
       }
       console.log(`InfoModalComponent has been closed with: ${data}`);
     });
@@ -99,18 +99,13 @@ export class AdsComponent implements OnInit {
     if(x == '13')
       event.preventDefault();
   }
+
   public open(content, ad?: Ad) {
     if(ad != null)
       this.temp = ad;
     
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, scrollable: true, size: "lg", backdrop: "static", keyboard: false }).result
     .then((result) => {
-      if (result == 'add') {
-        this.fileChoosen = false;
-        this.add();
-        this.createAdForm.reset();
-      }
-
       if (result == 'edit') {
         this.fileChoosen = false;
         this.edit(this.temp);
@@ -196,29 +191,6 @@ export class AdsComponent implements OnInit {
 
   public isLocationChoosen() {
     return this.location;
-  }
-
-  public async add() {
-    let user_id: number = +localStorage.getItem('user_id'),
-        size: number = this.createAdForm.value.inputSize,
-        room: number = this.createAdForm.value.inputRoom,
-        price = this.createAdForm.value.inputPrice,
-        picture = this.aws.uploadFile(this.fileToUpload, user_id, true),
-        type: string = this.createAdForm.value.selectType,
-        state: string = this.createAdForm.value.selectState,
-        details: string = this.createAdForm.value.inputDetails.replace(/ +/g, ' ');
-
-    this.adService.add(user_id, size, room, price, type, state, details, this.location, this.latitude, this.longitude, await picture).subscribe(
-      (result: Ad) => {
-        this.refreshAds();
-        this.location = null;
-        this.latitude = null;
-        this.longitude = null;
-      },
-      (err_response: HttpErrorResponse) => {
-        this.openInfoModal('Error', err_response.error.message);
-      }
-    );
   }
 
   public edit(ad: Ad) {
