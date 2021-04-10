@@ -11,6 +11,7 @@ import { User } from '../models/user';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AddAdModalComponent } from '../modals/add-ad-modal/add-ad-modal.component';
+import { EditAdModalComponent } from '../modals/edit-ad-modal/edit-ad-modal.component';
 
 
 @Component({
@@ -90,7 +91,27 @@ export class AdsComponent implements OnInit {
       if(data) {
         this.refreshAds();
       }
-      console.log(`InfoModalComponent has been closed with: ${data}`);
+      console.log(`AddAdModalComponent has been closed with: ${data}`);
+    });
+  }
+
+  public openEditAdModal(ad:Ad) {
+    const modalRef = this.modalService.open(EditAdModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+
+    modalRef.componentInstance.temp=ad;
+  
+
+    modalRef.result.then((data) => {
+      if(data) {
+        this.refreshAds();
+      }
+      console.log(`EditAdModalComponent has been closed with: ${data}`);
     });
   }
 
