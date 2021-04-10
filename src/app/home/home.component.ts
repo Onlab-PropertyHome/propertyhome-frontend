@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import { AdDetailsComponent } from '../modals/ad-details/ad-details.component';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { Ad } from '../models/ad';
-import { User } from '../models/user';
+import { User, UserDetails } from '../models/user';
 
 
 @Component({
@@ -33,13 +33,20 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user_id: number = +localStorage.getItem('user_id');
-    this.authService.getById(user_id).subscribe(
-      (response: User) => { 
-        this.user = response;
-      }
-    );
+    if (localStorage.getItem('user_id')) {
+      const user_id: number = +localStorage.getItem('user_id');
+      this.authService.getById(user_id).subscribe(
+        (response: User) => { 
+          this.user = response;
+        }
+      );
+    }
+    
     this.search();
+  }
+
+  public formatPrice(price) {
+    return Intl.NumberFormat('en-US', { style: 'decimal' }).format(price);
   }
 
   public openInfoModal(title: string, text: string) {
@@ -93,7 +100,7 @@ export class HomeComponent implements OnInit {
 
     this.service.search(rooms, type, size, priceRange).subscribe(
       (response: Ad[]) => {
-        console.log(response);
+        // console.log(response);
         this.setNoAds(false);
         this.ads = response;
       },
@@ -143,6 +150,14 @@ export class HomeComponent implements OnInit {
     return b ? true : false;
   }
 
+  public isLoggedIn() {
+    if (localStorage.getItem('token')) {
+      return true;
+    }
+
+    return false;
+  }
+
   public likeAd(ad: Ad) {
     const user_id: number = +localStorage.getItem('user_id');
     this.authService.addToFav(user_id, ad.ad_id).subscribe(
@@ -168,6 +183,19 @@ export class HomeComponent implements OnInit {
   }
 
   public viewInfo(ad: Ad) {
+    this.authService.findUserByAdId(ad.ad_id).subscribe(
+      (response: UserDetails) => {
+        let userDetails: UserDetails = response;
+        console.log(userDetails);
+        this.openDetailsModal(ad, userDetails);
+      },
+      (err_response: HttpErrorResponse) => {
+        this.openInfoModal('Error', err_response.error.message);
+      }
+    )
+  }
+
+  public openDetailsModal(ad: Ad, userDetails: UserDetails) {
     const modalRef = this.modalService.open(AdDetailsComponent, {
       ariaLabelledBy: 'modal-basic-title',
       centered: true,
@@ -178,9 +206,26 @@ export class HomeComponent implements OnInit {
     });
 
     modalRef.componentInstance.currentAd = ad;
+    modalRef.componentInstance.userDetails = userDetails;
 
     modalRef.result.then((data) => {
       console.log(`AdDetailsComponent has been closed with: ${data}`);
     });
+  }
+
+  public test() {
+    let userDetails: UserDetails = {
+      name: "asd",
+      tel: "asdasd",
+      picture: "null"
+    }
+
+    console.log(userDetails);
+
+    this.authService.testBody(userDetails).subscribe(
+      (response) => {
+        alert(JSON.stringify(response));
+      }
+    )
   }
 }

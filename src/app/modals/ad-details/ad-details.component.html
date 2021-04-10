@@ -6,8 +6,64 @@
     </button>
 </div>
 <div class="modal-body">
-    <p>{{currentAd.price}}</p>
+    <!-- <div *ngIf="currentAd.picture"> -->
+        <ngb-carousel [showNavigationArrows]="false" [showNavigationIndicators]="true" class="mb-3">
+                <ng-template ngbSlide>
+                        <div class="picsum-img-wrapper" [ngStyle]="GetSliderStyle(currentAd.picture)"></div>
+                        <div class="carousel-caption">
+                            <p>{{currentAd.picture}}</p>
+                        </div>
+                </ng-template>
+        </ngb-carousel>
+    <!-- </div> -->
+    <div class="row">
+        <div class="row col-6 mr-0 ml-0">
+            <div class="bold col-6 ml-0">#Rooms:</div>
+            <div class="right col-6 mr-0">{{currentAd.property.roomNumber}}</div>
+        </div>
+        <div class="row col-6 mr-0 ml-0">
+            <div class="bold col-6 ml-0">Size:</div>
+            <div class="right col-6 mr-0">{{currentAd.property.size}}</div>
+        </div>
+        <div class="row col-6 mr-0 ml-0">
+            <div class="bold col-6">Price:</div>
+            <div class="right col-6">{{currentAd.price}}</div>
+        </div>
+        <div class="row col-6 mr-0 ml-0">
+            <div class="bold col-6">Type:</div>
+            <div class="right col-6">{{currentAd.property.type}}</div>
+        </div>
+        <div class="row col-6 mr-0 ml-0">
+            <div class="bold col-6">State:</div>
+            <div class="right col-6">{{currentAd.property.state}}</div>
+        </div>
+    </div>
+    <br>
+    <div id="contactCard" class="card mb-3">
+        <div class="card-header bg-aqua">
+            <h6>Contact the seller</h6>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="left-column col-9">
+                    <div class="input-group">
+                        <span class="input-group-text" id="usernamePretend">Seller's Name:</span>
+                        <input class="form-control" disabled value="{{userDetails.name}}"
+                            aria-describedby="usernamePretend">
+                    </div>
+                    <div class="input-group mt-3" *ngIf="userDetails.tel != null && userDetails.tel != 'null'">
+                        <span class="input-group-text" id="telPretend">Telephone:</span>
+                        <input class="form-control" disabled value="{{userDetails.tel}}"
+                            aria-describedby="telPretend">
+                    </div>
+                </div>
+                <div class="right-column col-3">
+                    <img id="sellerImage" src="{{userDetails.picture}}">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="modal-footer">
+<!-- <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="closeModal('cancel')">Cancel</button>
-</div>
+</div> -->

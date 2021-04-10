@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdvertisementService } from '../services/advertisement.service';
@@ -29,6 +29,8 @@ export class AdsComponent implements OnInit {
   private latitude: number = null;
   private longitude: number = null;
   public temp?:Ad;
+  public isMobile = false;
+  public windowWidth: number;
 
   constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
     this.createAdForm = this.formBuilder.group({
@@ -50,6 +52,9 @@ export class AdsComponent implements OnInit {
       selectType: new FormControl(''),
       selectState: new FormControl('')
     });
+
+    this.windowWidth = window.innerWidth;
+    this.isMobile = this.windowWidth < 992;
   }
 
   public openInfoModal(title: string, text: string) {
@@ -126,6 +131,30 @@ export class AdsComponent implements OnInit {
         this.url = e.target.result;
       }
     }
+  }
+
+  @HostListener('window:resize', ['$event']) onResize(event) {
+    this.windowWidth = event.target.innerWidth;
+    if (this.windowWidth < 992)
+      this.isMobile = true;
+    else
+      this.isMobile = false;
+  }
+
+  public shortenLocation(location: string, type: string) {
+    let max: number;
+
+    switch (type) {
+      case 'small': max = 29; break;
+      case 'extra-small': max = 14; break;
+    }
+
+    let str = location.substring(0, max);
+
+    if (str.charAt(max) == ' ')
+      return str + '...';
+
+    return str.substring(0, max - 1) + ' ...';
   }
 
   ngOnInit(): void {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthResponse } from '../models/response';
-import { User } from '../models/user';
+import { User, UserDetails } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +96,7 @@ export class AuthService {
       headers: headers_object
     };
 
-    return this.httpClient.get<number[]>(`${this.baseUrl}user/${user_id}/favorites`);
+    return this.httpClient.get<number[]>(`${this.baseUrl}user/${user_id}/favorites`, options);
   }
 
   public deleteAdFromFav(user_id: number, ad_id: number) : Observable<User> {
@@ -111,5 +111,25 @@ export class AuthService {
     };
 
     return this.httpClient.put<User>(`${this.baseUrl}user/${user_id}/favorites/delete`, null, options);
+  }
+
+  public findUserByAdId(ad_id: number) : Observable<UserDetails> {
+    /*
+    let headers_object = new HttpHeaders({
+      'Content-Type': 'application/json',
+       'Authorization': "Bearer " + localStorage.getItem('token')
+    });*/
+
+    const options = {
+      // headers: headers_object,
+      params: new HttpParams().set('ad_id', ad_id.toString())
+    };
+
+    return this.httpClient.get<UserDetails>(`${this.baseUrl}user/find`, options);
+  }
+
+  public testBody(userDetails: UserDetails) : Observable<any> {
+
+    return this.httpClient.post<any>(`https://onlab-alberletdb.herokuapp.com/test2`, userDetails);
   }
 }

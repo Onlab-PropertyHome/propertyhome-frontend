@@ -1,4 +1,11 @@
 agm-map {
     height: 600px;
-  }
-  
+}
+
+::ng-deep .agm-map-container-inner {
+  border-radius: 15px;
+}
+
+.card-footer {
+  text-align: center;
+}

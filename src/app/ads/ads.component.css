@@ -16,4 +16,8 @@
 
 ::placeholder {
   font-style: italic;
-};
+}
+
+/* ::ng-deep .card {
+  border-radius: 25px;
+} */

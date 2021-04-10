@@ -5,6 +5,52 @@
   width: 100%;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.right {
+  width: 100%;
+  text-align: right;
+}
+
+.card-title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#adpic {
+  min-height: 150px;
+  max-height: 150px;
+  border-bottom: black;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+}
+
+.ad-card > .card {
+  min-height: 466px;
+  max-height: 466px;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+}
+
+input:disabled {
+  background: #ffffff;
+}
+
+.input-group-text {
+  font-weight: bold;
+}
+
+#roomNumber, #size {
+  text-align: right;
+}
+
+.card-footer > p {
+  text-align: center;
+}
+
 /*search box css start here*/
 /* .container {
   margin: auto;

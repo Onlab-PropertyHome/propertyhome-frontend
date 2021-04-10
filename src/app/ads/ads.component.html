@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <ng-template #createad let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add advertisement</h4>
@@ -25,13 +27,15 @@
         <label for="inputPrice" class="form-label">Price</label>
         <div class="input-group">
           <span class="input-group-text" id="inputPricePretend">$</span>
-          <input type="number" class="form-control" formControlName="inputPrice" id="inputPrice" placeholder="1500" aria-describedby="inputPricePretend">  
+          <input type="number" class="form-control" formControlName="inputPrice" id="inputPrice" placeholder="1500"
+            aria-describedby="inputPricePretend">
         </div>
       </div>
       <div class="mb-3">
         <img class="mt-3 mb-3 center" *ngIf="fileChoosen" [src]="url" height="200"><br>
         <label for="formFile" class="form-label">Choose picture</label>
-        <input class="form-control" type="file" id="formFile" formControlName="formFile" (change)="onSelectFile($event)">
+        <input class="form-control" type="file" id="formFile" formControlName="formFile"
+          (change)="onSelectFile($event)">
       </div>
       <div class="mb-3">
         <label for="selectType" class="form-label">Type</label>
@@ -55,11 +59,13 @@
       </div>
       <div class="mb-3">
         <label for="inputDetails" class="form-label">Details</label>
-        <textarea class="form-control" id="inputDetails" formControlName="inputDetails" rows="3" oninput="this.value = this.value.replace(/\n/g,' ')"></textarea>
+        <textarea class="form-control" id="inputDetails" formControlName="inputDetails" rows="3"
+          oninput="this.value = this.value.replace(/\n/g,' ')"></textarea>
       </div>
       <div class="row mb-3">
         <label class="form-label col-3" for="locationbutton">Choose your location</label>
-        <button id = "locationbutton" class="btn btn-secondary btn-sm" (click)="openLocationChooser()">Choose location</button>
+        <button id="locationbutton" class="btn btn-secondary btn-sm" (click)="openLocationChooser()">Choose
+          location</button>
       </div>
       <div class="mb-3" *ngIf="isLocationChoosen()">
         <label class="form-label" for="selectedLocation">Selected location</label>
@@ -87,26 +93,30 @@
         <div class="col-6">
           <label for="inputSize" class="form-label">Size</label>
           <div class="input-group">
-            <input type="number" class="form-control" formControlName="inputSize" id="inputSize" placeholder="{{temp.property.size}}" value="{{temp.property.size}}">
+            <input type="number" class="form-control" formControlName="inputSize" id="inputSize"
+              placeholder="{{temp.property.size}}" value="{{temp.property.size}}">
             <span class="input-group-text" id="inputSizeSuffix" aria-describedby="inputSize">m&#178;</span>
           </div>
         </div>
         <div class="col-6">
           <label for="inputRoom" class="form-label">Rooms</label>
-          <input type="number" class="form-control" formControlName="inputRoom" id="inputRoom" placeholder="{{temp.property.roomNumber}}" value="{{temp.property.roomNumber}}">
+          <input type="number" class="form-control" formControlName="inputRoom" id="inputRoom"
+            placeholder="{{temp.property.roomNumber}}" value="{{temp.property.roomNumber}}">
         </div>
       </div>
       <div class="mb-3">
         <label for="inputPrice" class="form-label">Price</label>
         <div class="input-group">
           <span class="input-group-text" id="inputPricePretend">$</span>
-          <input type="number" class="form-control" formControlName="inputPrice" id="inputPrice" placeholder="{{temp.price}}" value="{{temp.price}}" aria-describedby="inputPricePretend">  
+          <input type="number" class="form-control" formControlName="inputPrice" id="inputPrice"
+            placeholder="{{temp.price}}" value="{{temp.price}}" aria-describedby="inputPricePretend">
         </div>
       </div>
       <div class="mb-3">
         <img class="mt-3 mb-3 center" *ngIf="fileChoosen" [src]="url" height="200"><br>
         <label for="formFile" class="form-label">Choose picture</label>
-        <input disabled class="form-control" type="file" id="formFile" formControlName="formFile" (change)="onSelectFile($event)">
+        <input disabled class="form-control" type="file" id="formFile" formControlName="formFile"
+          (change)="onSelectFile($event)">
       </div>
       <div class="mb-3">
         <label for="selectType" class="form-label">Type</label>
@@ -130,11 +140,14 @@
       </div>
       <div class="mb-3">
         <label for="inputDetails" class="form-label">Details</label>
-        <textarea class="form-control" id="inputDetails" formControlName="inputDetails" rows="3" placeholder = "{{temp.details}}" value="{{temp.details}}" oninput="this.value = this.value.replace(/\n/g,' ')"></textarea>
+        <textarea class="form-control" id="inputDetails" formControlName="inputDetails" rows="3"
+          placeholder="{{temp.details}}" value="{{temp.details}}"
+          oninput="this.value = this.value.replace(/\n/g,' ')"></textarea>
       </div>
       <div class="row mb-3">
         <label class="form-label col-3" for="locationbutton">Choose your location</label>
-        <button id = "locationbutton" class="btn btn-secondary btn-sm" (click)="openLocationChooser()">Choose location</button>
+        <button id="locationbutton" class="btn btn-secondary btn-sm" (click)="openLocationChooser()">Choose
+          location</button>
       </div>
       <div class="mb-3" *ngIf="isLocationChoosen()">
         <label class="form-label" for="selectedLocation">Selected location</label>
@@ -149,27 +162,115 @@
 </ng-template>
 
 <div class="py-5">
-    <div class="row">
-      <div class="col-md-9 mx-auto">
-        <span class="anchor" id="formDetails"></span>
+  <div class="row">
+    <div class="col-md-9 mx-auto">
+      <span class="anchor" id="formDetails"></span>
 
-        <div class="card rounded-0">
-          <div class="card-header mb-0">
-            <div class="row">
-              <h4 class="mb-0 col-6">Your ads</h4>
-              <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;">
-                <button class="btn btn-secondary btn-sm" (click)="open(createad)">Add new ad</button>
-              </div>
+      <div class="card rounded-0">
+        <div class="card-header mb-0">
+          <div class="row">
+            <h4 class="mb-0 col-6">Your ads</h4>
+            <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;"
+              *ngIf="isMobile">
+              <button class="btn btn-secondary btn-sm" (click)="open(createad)">
+                <i class="material-icons">add</i>
+              </button>
+            </div>
+            <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;"
+              *ngIf="!isMobile">
+              <button class="btn btn-secondary btn-sm" (click)="open(createad)">Add new ad</button>
             </div>
           </div>
-          <div class="card-body">
-              <div class="row">
-                    <form class="form-details col-12">
-                        <div class="mb-3" *ngIf="ads.length != 0">
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <form class="form-details col-12">
+              <div class="mb-3" *ngIf="ads.length != 0">
 
-                            <div *ngFor="let ad of ads">
+                <div *ngFor="let ad of ads; last as isLast;">
 
-                                <div class="card rounded-1 w-100 mb-2">
+                  <ngb-accordion>
+                    <ngb-panel>
+                      <ng-template ngbPanelHeader>
+
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div *ngIf="!isMobile">
+                            <button ngbPanelToggle class="btn m-0">{{ad.location}}</button>
+                          </div>
+                          <div *ngIf="windowWidth > 470 && windowWidth < 992">
+                            <button ngbPanelToggle class="btn m-0">{{shortenLocation(ad.location, 'small')}}</button>
+                          </div>
+                          <div *ngIf="windowWidth < 471">
+                            <button ngbPanelToggle class="btn m-0">{{shortenLocation(ad.location, 'extra-small')}}</button>
+                          </div>
+                          <div>
+                            <div *ngIf="isMobile">
+                              <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="open(editad,ad)">
+                                <i class="material-icons">edit</i>
+                              </button>
+                              <button class="btn btn-danger ml-1 btn-sm" (click)="openDeleteModal(ad)">
+                                <i class="material-icons">delete</i>
+                              </button>
+                            </div>
+                            <div *ngIf="!isMobile">
+                              <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="open(editad,ad)">
+                                Edit
+                              </button>
+                              <button class="btn btn-danger ml-1 btn-sm" (click)="openDeleteModal(ad)">
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="row">
+                                          <button ngbPanelToggle class="btn mb-0 col-9" style="text-align: left;">{{ad.location}}</button>
+                                          <div class="mb-0 col-3 row" style="text-align: right; vertical-align: middle; font-size: larger;">
+                                            <button class="btn btn-danger mr-1 ml-1 btn-sm col-5" (click)="open(editad,ad)">Edit</button>
+                                            <button class="btn btn-danger ml-1 btn-sm col-5" (click)="openDeleteModal(ad)">Delete</button>
+                                          </div>
+                                      </div> -->
+                      </ng-template>
+                      <ng-template ngbPanelContent>
+                        <form class="form-ad col-12">
+                          <div class="row">
+                            <img class="mb-3 col-md-4 picture-div" src="{{ad.picture}}">
+                            <div class="mb-1 col-12 col-md-3">
+                              <label for="adLocation" class="form-label">Size</label>
+                              <p id="adLocation">{{ad.property.size}} m<sup>2</sup></p>
+                            </div>
+                            <div class="mb-1 col-12 col-md-3">
+                              <label for="adPrice" class="form-label">Price</label>
+                              <p id="adPrice">${{ad.price}}</p>
+                            </div>
+                            <div class="mb-1 col-12 col-md-2">
+                              <label for="adRoom" class="form-label">Rooms</label>
+                              <p id="adPrice">{{ad.property.roomNumber}}</p>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="mb-1 col-12 col-md-7">
+                              <label for="adState" class="form-label">Details</label>
+                              <p id="adState">{{translateDetails(ad.details)}}</p>
+                            </div>
+                            <div class="mb-1 col-12 col-md-3">
+                              <label for="adState" class="form-label">State</label>
+                              <p id="adState">{{translateString(ad.property.state)}}</p>
+                            </div>
+                            <div class="mb-1 col-12 col-md-2">
+                              <label for="adType" class="form-label">Type</label>
+                              <p id="adType">{{translateString(ad.property.type)}}</p>
+                            </div>
+                          </div>
+                        </form>
+                      </ng-template>
+                    </ngb-panel>
+                  </ngb-accordion>
+
+                  <br *ngIf="!isLast">
+
+
+                  <!-- <div class="card rounded-1 w-100 mb-2">
                                     <div class="card-header mb-0">
                                         <div class="row">
                                             <p class="mb-0 col-9">{{ad.location}}</p>
@@ -213,21 +314,21 @@
                                             </div>
                                         </form>
                                     </div>
-                                </div>
+                                </div> -->
 
-                            </div>
-
-                        </div>
-                        <h2 class="mt-4 mb-4 text-center text-muted" *ngIf="ads.length == 0">Currently you have no ads</h2>
-                    </form>    
                 </div>
+
+              </div>
+              <h2 class="mt-4 mb-4 text-center text-muted" *ngIf="ads.length == 0">Currently you have no ads</h2>
+            </form>
           </div>
-          <div class="card-footer text-center text-muted">
-            © 2021
-          </div>
-          <!--/card-block-->
         </div>
-        <!-- /form card -->
+        <div class="card-footer text-center text-muted">
+          © 2021
+        </div>
+        <!--/card-block-->
       </div>
+      <!-- /form card -->
     </div>
+  </div>
 </div>
