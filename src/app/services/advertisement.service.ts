@@ -13,6 +13,14 @@ export class AdvertisementService {
 //this.aws.uploadFile(file);
   constructor(private httpClient: HttpClient) { }
 
+  public getall() : Observable<Ad[]> {
+    
+    
+    return this.httpClient.get<Ad[]>(`${this.baseUrl}ad/all`);
+  }
+
+
+
   public search(rooms: number, type: string, size: number, price: string) : Observable<Ad[]> {
     let httpParams: HttpParams = new HttpParams();
 

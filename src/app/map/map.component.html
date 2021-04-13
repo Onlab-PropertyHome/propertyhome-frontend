@@ -8,9 +8,27 @@
         <div class="card-body">
           <agm-map [scrollwheel]="true" [zoom]="zoom" [latitude]="47.49801" [longitude]="19.03991">
             <div *ngFor="let marker of markers">
-              <agm-marker [latitude]="marker.lat" [longitude]="marker.lng"></agm-marker>
+              <agm-marker [latitude]="marker.lat" [longitude]="marker.lng" [iconUrl] ="
+              {
+                url: './assets/404-not-found.png',
+                scaledSize: {
+                    width: 80,
+                    height:53
+                    
+                }
+            }" ></agm-marker>
             </div>
+
+            <div *ngFor="let circle of Circles">
+              <agm-circle [latitude]="circle.lat" [longitude]="circle.lng" [fillColor]="circle.fillColor"  [radius]="circle.radius"></agm-circle>
+            </div>
+
+
           </agm-map>
+          <button (click)="radiusincrease()">size++</button>
+          <button (click)="radiusdecrease()">size</button>
+          <button (click)="highlight()">hightlight</button>
+          <button (click)="highlight2()">highlight2</button>
         </div>
         <div class="card-footer">
           <p class="text-muted mb-0">© 2021</p>
