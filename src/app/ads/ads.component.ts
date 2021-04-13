@@ -104,7 +104,7 @@ export class AdsComponent implements OnInit {
       keyboard: false 
     });
 
-    modalRef.componentInstance.temp=ad;
+    modalRef.componentInstance.temp = ad;
   
 
     modalRef.result.then((data) => {

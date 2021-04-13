@@ -126,7 +126,7 @@
                           </div>
                           <div>
                             <div *ngIf="isMobile">
-                              <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="openEditAdModal()">
+                              <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="openEditAdModal(ad)">
                                 <i class="material-icons">edit</i>
                               </button>
                               <button class="btn btn-danger ml-1 btn-sm" (click)="openDeleteModal(ad)">
@@ -134,7 +134,7 @@
                               </button>
                             </div>
                             <div *ngIf="!isMobile">
-                              <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="openEditAdModal()">
+                              <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="openEditAdModal(ad)">
                                 Edit
                               </button>
                               <button class="btn btn-danger ml-1 btn-sm" (click)="openDeleteModal(ad)">

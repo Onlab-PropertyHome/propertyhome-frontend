@@ -15,7 +15,7 @@ import { InfoModalComponent } from '../info-modal/info-modal.component';
   styleUrls: ['./edit-ad-modal.component.css']
 })
 export class EditAdModalComponent implements OnInit {
-  public temp:Ad=null;
+  public temp: Ad;
   public editAdForm: FormGroup;
   public fileChoosen: boolean = false;
   private fileToUpload: File = null;
@@ -33,12 +33,14 @@ export class EditAdModalComponent implements OnInit {
       inputPrice: new FormControl(),
       formFile: new FormControl(),
       inputDetails: new FormControl(),
-      selectType: new FormControl(''),
-      selectState: new FormControl('')
+      selectType: new FormControl(),
+      selectState: new FormControl()
     });
   }
 
   ngOnInit(): void {
+    this.editAdForm.get('selectType').setValue(this.temp.property.type.toLowerCase());
+    this.editAdForm.get('selectState').setValue(this.temp.property.state.toLowerCase());
   }
 
   public openInfoModal(title: string, text: string) {
