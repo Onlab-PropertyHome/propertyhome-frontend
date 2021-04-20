@@ -25,6 +25,8 @@ import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { AddAdModalComponent } from './modals/add-ad-modal/add-ad-modal.component';
 import { EditAdModalComponent } from './modals/edit-ad-modal/edit-ad-modal.component';
 import { AgmMarkerClustererModule } from '@agm/markerclusterer';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 export function tokenGetter() {
@@ -73,6 +75,12 @@ export function tokenGetter() {
         allowedDomains: ["https://onlab-alberletdb.herokuapp.com/api/*", "http://localhost:8080/api/*"],
         disallowedRoutes: []
       }
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     })
   ],
   providers: [AuthService, AdvertisementService],

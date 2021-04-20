@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-md-6 mx-auto">
         <span class="anchor" id="formRegister"></span>
-  
+
         <!-- form card register -->
         <div class="card rounded-0">
           <div class="card-header">
@@ -14,7 +14,7 @@
                     <label for="inputName" class="form-label">Name</label>
                     <input type="text" class="form-control rounded-0" id="inputName" placeholder="your name" required="" autofocus="" formControlName="inputName"
                       [ngClass]="{'is-invalid': registerForm.get('inputName').touched && registerForm.get('inputName').invalid}">
-            
+
                       <div class="invalid-feedback">
                         <div>Name is required</div>
                       </div>
@@ -26,12 +26,12 @@
                       placeholder="youremail@email.com" formControlName="inputEmail"
                       [ngClass]="{'is-invalid': registerForm.get('inputEmail').touched && registerForm.get('inputEmail').invalid}"
                       ngModel email>
-            
+
                     <div *ngIf="registerForm.get('inputEmail').touched && registerForm.get('inputEmail').invalid" class="invalid-feedback">
                       <div *ngIf="registerForm.get('inputEmail').errors.required">Email is required</div>
                       <div *ngIf="registerForm.get('inputEmail').errors.email">You must give a valid email address</div>
                     </div>
-            
+
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                   </div>
 
@@ -39,36 +39,34 @@
                     <label for="inputPassword" class="form-label">Password</label>
                     <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword" placeholder="strong password"
                     [ngClass]="{'is-invalid': registerForm.get('inputPassword').touched && registerForm.get('inputPassword').invalid}">
-            
+
                     <div *ngIf="registerForm.get('inputPassword').touched && registerForm.get('inputPassword').invalid" class="invalid-feedback">
                       <div *ngIf="registerForm.get('inputPassword').errors.required">Password is required</div>
                       <div *ngIf="registerForm.get('inputPassword').errors.minlength">Password should be at least 8 characters</div>
                       <div *ngIf="registerForm.get('inputPassword').errors.maxlength">Password cannot be more than 20 characters</div>
                     </div>
                   </div>
-            
+
                   <div class="mb-3">
                     <label for="inputPasswordConf" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="inputPasswordConf" formControlName="inputPasswordConf" placeholder="strong password again"
                     [ngClass]="{'is-invalid': registerForm.get('inputPasswordConf').touched && registerForm.get('inputPasswordConf').invalid}">
-            
+
                     <div *ngIf="registerForm.get('inputPasswordConf').touched && registerForm.get('inputPasswordConf').invalid" class="invalid-feedback">
                       <div *ngIf="registerForm.get('inputPasswordConf').errors.required">Confirming password is required</div>
                       <div *ngIf="registerForm.get('inputPasswordConf').errors.mustMatch">Passwords are not matching</div>
                     </div>
                   </div>
 
-                  <div class="form-check mb-3">
-                    <mat-checkbox type="checkbox" class="form-check-input" id="acceptCheckbox" formControlName="Checkbox" (change)="fnc()">Check this
-                      if you agree to our User Agreement and Privacy Policy</mat-checkbox>
+                  <div class="form-check mb-2">
+                    <mat-checkbox class="form-check-input" id="acceptCheckbox" formControlName="Checkbox" (change)="fnc()">
+                      Check this if you agree to our User Agreement and Privacy Policy
+                    </mat-checkbox>
                     <label class="form-check-label" for="acceptCheckbox"></label>
                   </div>
 
-                  <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="!registerForm.valid">Register</button>
+                  <button type="submit" class="btn btn-primary w-100 btn-lg mt-4" [disabled]="!registerForm.valid">Register</button>
             </form>
-          </div>
-          <div class="card-footer text-center text-muted">
-            © 2021
           </div>
           <!--/card-block-->
         </div>

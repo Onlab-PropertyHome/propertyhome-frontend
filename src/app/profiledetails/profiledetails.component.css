@@ -28,3 +28,7 @@ input, label {
 #canvas {
   border: 1px solid blue;
 }
+
+.card-body {
+  height: 100%;
+}

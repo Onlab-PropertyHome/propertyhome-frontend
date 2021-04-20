@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
@@ -11,7 +12,7 @@ import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 export class AppComponent implements OnInit {
   title = 'propertyhome-frontend';
 
-  constructor(private jwtHelper: JwtHelperService, private modalService: NgbModal) { }
+  constructor(private jwtHelper: JwtHelperService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
     let token = localStorage.getItem('token');
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
     modalRef.result.then((data) => {
       localStorage.removeItem('user_id');
       localStorage.removeItem('token');
+      this.router.navigate(['/login']);
     });
   }
 }
