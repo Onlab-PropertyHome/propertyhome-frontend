@@ -78,6 +78,8 @@ export class EditAdModalComponent implements OnInit {
         this.location = null;
         this.latitude = null;
         this.longitude = null;
+
+        this.closeModal(result);
       },
       (err_response: HttpErrorResponse) => {
         this.openInfoModal('Error', err_response.error.message);
@@ -98,7 +100,7 @@ export class EditAdModalComponent implements OnInit {
   }
 
   closeModal(sendData) {
-    if (sendData == 'add') {
+    if (sendData == 'edit') {
       this.edit(this.temp);
     } else {
       this.ActiveModal.close(sendData);

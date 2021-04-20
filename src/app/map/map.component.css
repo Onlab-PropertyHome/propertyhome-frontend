@@ -9,3 +9,11 @@ agm-map {
 .card-footer {
   text-align: center;
 }
+
+.no-details {
+  font-style: italic;
+}
+
+.details {
+  font-size: medium;
+}

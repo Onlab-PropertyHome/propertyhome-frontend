@@ -24,6 +24,7 @@ import { GoogleMapLocationChooserComponent } from './modals/google-map-location-
 import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 import { AddAdModalComponent } from './modals/add-ad-modal/add-ad-modal.component';
 import { EditAdModalComponent } from './modals/edit-ad-modal/edit-ad-modal.component';
+import { AgmMarkerClustererModule } from '@agm/markerclusterer';
 
 
 export function tokenGetter() {
@@ -51,14 +52,12 @@ export function tokenGetter() {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
     MatCheckboxModule,
-    
-    
+
     AgmCoreModule.forRoot({
       // AIzaSyAF_X3Ikvvllsi4OJTPAMK3FbwE4yxe1PE új
       // AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8 régi
@@ -66,7 +65,7 @@ export function tokenGetter() {
       libraries: ["places"],
       apiVersion: 'quarterly'
     }),
-    
+    AgmMarkerClustererModule,
     NgbAlertModule,
     JwtModule.forRoot({
       config: {

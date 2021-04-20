@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfoModalComponent } from './modals/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +11,31 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'propertyhome-frontend';
 
-  ngOnInit(): void {
-    /*
-    if (localStorage.getItem('user_id'))
-      localStorage.removeItem('user_id')
+  constructor(private jwtHelper: JwtHelperService, private modalService: NgbModal) { }
 
-    if (localStorage.getItem('token'))
-      localStorage.removeItem('token')
-    */
+  ngOnInit(): void {
+    let token = localStorage.getItem('token');
+    if (token) {
+      if (this.jwtHelper.isTokenExpired(token)) {
+        this.openInfoModal("Error", "The token has been expired");
+      }
+    }
+  }
+
+  private openInfoModal(title: string, text: string) {
+    const modalRef = this.modalService.open(InfoModalComponent, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      scrollable: true,
+      backdrop: "static",
+      keyboard: false 
+    });
+    modalRef.componentInstance.modal_title = title;
+    modalRef.componentInstance.modal_text = text;
+
+    modalRef.result.then((data) => {
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('token');
+    });
   }
 }
