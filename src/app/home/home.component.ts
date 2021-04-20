@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
       inputSize: new FormControl('', []),
       inputRooms: new FormControl('', []),
       selectType: new FormControl('', []),
-      selectPriceRange: new FormControl('0-20000', [])
+      selectPriceRange: new FormControl('All', [])
     });
   }
 
