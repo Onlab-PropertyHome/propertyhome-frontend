@@ -19,3 +19,8 @@
 :host::ng-deep.mat-checkbox-inner-container{
   margin-top: 4px;
 }
+
+.form-register {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

@@ -1,43 +1,40 @@
 <div class="py-5">
-    <div class="row">
-      <div class="col-md-6 mx-auto">
-        <span class="anchor" id="formLogin"></span>
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <span class="anchor" id="formLogin"></span>
 
-        <!-- form card login -->
-        <div class="card rounded-0">
-          <div class="card-header">
-            <h3 class="mb-0">Login</h3>
-          </div>
-          <div class="card-body">
-            <form class="form-login" [formGroup]="loginForm" (ngSubmit)="loginNow(loginForm)">
+      <!-- form card login -->
+      <div class="card rounded-0">
+        <div class="card-body">
+          <form class="form-login" [formGroup]="loginForm" (ngSubmit)="loginNow(loginForm)">
+              <div class="mb-3">
+                  <label for="inputEmail" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="inputEmail"
+                    placeholder="youremail@email.com" name="email" formControlName="inputEmail"
+                    [ngClass]="{'is-invalid': loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid}">
+
+                  <div *ngIf="loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid" class="invalid-feedback">
+                    <div *ngIf="loginForm.get('inputEmail').errors.required">Email is required</div>
+                    <div *ngIf="loginForm.get('inputEmail').errors.email">You must give a valid email address</div>
+                  </div>
+                </div>
+
                 <div class="mb-3">
-                    <label for="inputEmail" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="inputEmail"
-                      placeholder="youremail@email.com" name="email" formControlName="inputEmail"
-                      [ngClass]="{'is-invalid': loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid}">
+                  <label for="inputPassword" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword" placeholder="your password"
+                  [ngClass]="{'is-invalid': loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid}">
 
-                    <div *ngIf="loginForm.get('inputEmail').touched && loginForm.get('inputEmail').invalid" class="invalid-feedback">
-                      <div *ngIf="loginForm.get('inputEmail').errors.required">Email is required</div>
-                      <div *ngIf="loginForm.get('inputEmail').errors.email">You must give a valid email address</div>
-                    </div>
+                  <div *ngIf="loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid" class="invalid-feedback">
+                    <div *ngIf="loginForm.get('inputPassword').errors.required">Password is required</div>
                   </div>
+                </div>
 
-                  <div class="mb-3">
-                    <label for="inputPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="inputPassword" formControlName="inputPassword" placeholder="your password"
-                    [ngClass]="{'is-invalid': loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid}">
-
-                    <div *ngIf="loginForm.get('inputPassword').touched && loginForm.get('inputPassword').invalid" class="invalid-feedback">
-                      <div *ngIf="loginForm.get('inputPassword').errors.required">Password is required</div>
-                    </div>
-                  </div>
-
-                  <button type="submit" class="btn btn-primary w-100 btn-lg" [disabled]="!loginForm.valid">Login</button>
-            </form>
-          </div>
-          <!--/card-block-->
+                <button type="submit" class="btn btn-primary w-100 btn-lg mt-4" [disabled]="!loginForm.valid">Login</button>
+          </form>
         </div>
-        <!-- /form card register -->
+        <!--/card-block-->
       </div>
+      <!-- /form card register -->
     </div>
+  </div>
 </div>

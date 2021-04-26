@@ -40,13 +40,7 @@ export class AmazonService {
     let blob = f.slice(0, f.size, f.type);
     let file = new File([blob], f_name, { type: 'image/png' });
 
-    const bucket = new S3(
-      {
-        accessKeyId: 'AKIA5Z4TMCK7WBUNHM5T',
-        secretAccessKey: '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',
-        region: 'eu-central-1'
-      }
-    );
+    const bucket = this.getS3Bucket();
 
     const params = {
       Bucket: this.BUCKET,

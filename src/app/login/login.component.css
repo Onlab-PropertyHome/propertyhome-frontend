@@ -11,3 +11,8 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+.form-login {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

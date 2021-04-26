@@ -9,6 +9,7 @@
     height: 100%;
     white-space: nowrap;
     word-break: normal;
+    margin-top: 10rem;
 }
 
 #error-page-image {
