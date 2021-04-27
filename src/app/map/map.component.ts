@@ -19,101 +19,24 @@ import { AuthService } from '../services/auth.service';
 
 export class MapComponent implements OnInit {
 
+  private map: google.maps.Map = null;
+  private heatmap: google.maps.visualization.HeatmapLayer = null;
+
   public list: Ad[];
   bpLat = 47.49801;
   bpLng = 19.03991;
   zoom = 12;
-  public Circles = [];
 
   markers = [];
 
   lat = 51.678418;
   lng = 7.809007;
-  circle_radius: number = 450;
 
-  constructor(private adService: AdvertisementService, private authService: AuthService, private modalService: NgbModal) {
-    adService.getall().subscribe(
-      (ads: Ad[]) => {
-        this.list = ads;
-        if (this.list.length > 0) {
-          this.list.forEach(Ad => {
-            this.markers.push({
-              marker: new Marker(Ad.property.lat, Ad.property.lng),
-              ad: Ad
-            })
-
-            this.Circles.push({
-              lat: Ad.property.lat,
-              lng: Ad.property.lng,
-              radius: this.circle_radius,
-              fillColor: 'red'
-
-            })
-          });
-        }
-      }
-    );
-  }
-
-  radiusincrease() {
-    this.Circles.forEach(element => {
-      element.radius += 50;
-
-    });
-
-  }
-
-  radiusdecrease() {
-    this.Circles.forEach(element => {
-      if (element.radius > 50)
-        element.radius -= 50;
-
-    });
-  }
+  constructor(private adService: AdvertisementService, private authService: AuthService, private modalService: NgbModal) { }
 
 
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
-  async highlight() {
-
-    this.Circles.forEach(async element => {
-
-      element.fillColor = "green"; console.log("green");
-    });
-    await this.delay(2000);
-
-    this.Circles.forEach(async element => {
-
-      element.fillColor = "red"; console.log("red");
-    });
-
-  }
-
-  async highlight2() {
-    this.Circles.forEach(element => {
-      element.fillColor = "orange";
-    });
-    for (let i = 0; i < 20; i++) {
-      this.Circles.forEach(element => {
-        element.radius += 50;
-      });
-      await this.delay(1);
-    }
-    for (let i = 0; i < 20; i++) {
-      this.Circles.forEach(element => {
-        element.radius -= 50;
-      });
-      await this.delay(1);
-    }
-    this.Circles.forEach(element => {
-      element.fillColor = "blue";
-    });
-    await this.delay(200)
-    this.Circles.forEach(element => {
-      element.fillColor = "red";
-    });
   }
 
   public openInfoModal(title: string, text: string) {
@@ -164,7 +87,43 @@ export class MapComponent implements OnInit {
     });
   }
 
+  onMapLoad(mapInstance: google.maps.Map) {
+    this.map = mapInstance;
+    const coords: google.maps.LatLng[] = [];
 
-  ngOnInit(): void { }
+    this.adService.getall().toPromise().then(
+      (response: Ad[]) => {
+        this.list = response;
+
+
+        this.list.forEach(ad => {
+          coords.push(new google.maps.LatLng(ad.property.lat, ad.property.lng));
+        });
+
+        this.heatmap = new google.maps.visualization.HeatmapLayer({
+          map: this.map,
+          data: coords,
+          radius: 50
+        });
+      }
+    );
+  }
+
+
+  ngOnInit(): void {
+    this.adService.getall().subscribe(
+      (ads: Ad[]) => {
+        this.list = ads;
+        if (this.list.length > 0) {
+          this.list.forEach(Ad => {
+            this.markers.push({
+              marker: new Marker(Ad.property.lat, Ad.property.lng),
+              ad: Ad
+            });
+          });
+        }
+      }
+    );
+  }
 
 }

@@ -64,7 +64,7 @@ export function tokenGetter() {
       // AIzaSyAF_X3Ikvvllsi4OJTPAMK3FbwE4yxe1PE új
       // AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8 régi
       apiKey: 'AIzaSyDZE7e2s1AzvdbH4jk0zpQcc0_25Uvk4x8',
-      libraries: ["places"],
+      libraries: ["places", "visualization"],
       apiVersion: 'quarterly'
     }),
     AgmMarkerClustererModule,
