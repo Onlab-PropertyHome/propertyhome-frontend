@@ -59,54 +59,68 @@ export class AmazonService {
     return mUpload.Location;
   }
 
-  public deleteFolder(user_id: number) {
-    /* TODO
-    const bucket = new S3(
-      {
-        accessKeyId: 'AKIA5Z4TMCK7WBUNHM5T',
-        secretAccessKey: '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',
-        region: 'eu-central-1'
-      }
-    );
+  public deleteAdImage(ad_picture: string) {
+    const key = ad_picture.split('.com/')[1];
+    const aws = this.getS3Bucket();
 
     const params = {
       Bucket: this.BUCKET,
-      Key: this.FOLDER + '/' + user_id
+      Delete: { Objects: [] }
+    };
+
+    params.Delete.Objects.push(key);
+
+    aws.deleteObjects(params, (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      console.log(result);
+    });
+  }
+
+  public async deleteEveryImage(user_id: number) {
+    const aws = this.getS3Bucket();
+
+    const params = {
+      Bucket: this.BUCKET,
+      Prefix: this.FOLDER + user_id + '/'
     }
 
-    this.getS3Bucket().listObjects(params, (err, data) => {
+    console.log(params.Prefix);
+
+    aws.listObjects(params, (err, data) => {
       if (err) {
-        console.log(`Error`);
+        console.log(err);
         return;
       }
 
       if (data.Contents.length == 0) {
-        console.log(`data = 0`);
         return;
       }
 
-      const params2 = {
+      const listedObjects = data;
+      const deleteParams = {
         Bucket: this.BUCKET,
-        Delete: {
-          Objects: []
-        }
+        Delete: { Objects: [] }
       };
 
-      data.Contents.forEach(function(content) {
-        params2.Delete.Objects.push({Key: content.Key});
+      listedObjects.Contents.forEach(({ Key }) => {
+        deleteParams.Delete.Objects.push({ Key });
       });
 
-      this.getS3Bucket().deleteObjects(params2, function(err, data) {
+      console.log(deleteParams.Delete.Objects);
+
+      aws.deleteObjects(deleteParams, (err, result) => {
         if (err) {
-          console.log(`Error: deleting`);
+          console.log(err);
           return;
         }
-        else {
-          console.log(`hello`);
-          return;
-        }
+
+        console.log(result);
       });
-    })*/
+    });
   }
 
   public getFiles(): Observable<Array<FileUpload>> {

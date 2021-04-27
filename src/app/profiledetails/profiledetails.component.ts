@@ -171,5 +171,4 @@ export class ProfiledetailsComponent implements OnInit {
   public getIsEditing() : boolean {
     return this.isEditing;
   }
-
 }

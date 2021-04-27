@@ -48,7 +48,7 @@ export class DeleteModalComponent implements OnInit {
         this.authService.delete(+this.param).subscribe(
           (response) => {
             this.openInfoModal('Info', 'User profile has been deleted successfully');
-            this.amazonService.deleteFolder(+this.param);
+            this.amazonService.deleteEveryImage(+this.param);
             this.closeModal('yes');
           },
           (err_response) => {
