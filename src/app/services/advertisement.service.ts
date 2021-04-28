@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Ad } from '../models/ad';
 
 @Injectable({
@@ -14,12 +14,18 @@ export class AdvertisementService {
   constructor(private httpClient: HttpClient) { }
 
   public getall() : Observable<Ad[]> {
-    
-    
     return this.httpClient.get<Ad[]>(`${this.baseUrl}ad/all`);
   }
 
+  public getMultipleAds(ids: number[]) : Observable<Ad[]> {
+    let responseArray: Observable<Ad>[] = [];
 
+    ids.forEach(id => {
+      responseArray.push(this.httpClient.get<Ad>(`${this.baseUrl}ad/${id}`));
+    });
+
+    return forkJoin(responseArray);
+  }
 
   public search(rooms: number, type: string, size: number, price: string) : Observable<Ad[]> {
     let httpParams: HttpParams = new HttpParams();

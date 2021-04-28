@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdsComponent } from './ads/ads.component';
+import { FavoriteAdsComponent } from './favorite-ads/favorite-ads.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: "details/:id", component: ProfiledetailsComponent},
   { path: "ads", component: AdsComponent},
   { path: "home", component: HomeComponent},
+  { path: "favorite-ads", component: FavoriteAdsComponent },
   { path: "**", component: PagenotfoundComponent },
   { path: "not-found", component: PagenotfoundComponent }
 ];

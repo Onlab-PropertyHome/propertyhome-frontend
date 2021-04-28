@@ -2,22 +2,14 @@
 
 <div class="container py-5">
   <div class="row mb-4">
-    <h4 class="mb-0 col-6">Your ads</h4>
-    <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;" *ngIf="isMobile">
-      <button class="btn btn-secondary btn-sm" (click)="openAddAdModal()">
-        <i class="material-icons">add</i>
-      </button>
-    </div>
-    <div class="mb-0 col-6" style="text-align: right; vertical-align: middle; font-size: larger;" *ngIf="!isMobile">
-      <button class="btn btn-secondary btn-sm" (click)="openAddAdModal()">Add new ad</button>
-    </div>
+    <h4 class="mb-0 col-6">Your saved favorite ads</h4>
   </div>
 
   <div class="row">
     <form class="form-details col-12">
-      <div class="mb-3" *ngIf="ads.length != 0">
+      <div class="mb-3" *ngIf="favoriteAds.length != 0">
 
-        <div *ngFor="let ad of ads; last as isLast;">
+        <div *ngFor="let ad of favoriteAds; last as isLast;">
 
           <ngb-accordion>
             <ngb-panel>
@@ -35,18 +27,12 @@
                   </div>
                   <div>
                     <div *ngIf="isMobile">
-                      <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="openEditAdModal(ad)">
-                        <i class="material-icons">edit</i>
-                      </button>
-                      <button class="btn btn-danger ml-1 btn-sm" (click)="openDeleteModal(ad)">
+                      <button class="btn btn-danger ml-1 btn-sm" (click)="removeAdFromFavorites(ad)">
                         <i class="material-icons">delete</i>
                       </button>
                     </div>
                     <div *ngIf="!isMobile">
-                      <button class="btn btn-danger mr-1 ml-1 btn-sm" (click)="openEditAdModal(ad)">
-                        Edit
-                      </button>
-                      <button class="btn btn-danger ml-1 btn-sm" (click)="openDeleteModal(ad)">
+                      <button class="btn btn-danger ml-1 btn-sm" (click)="removeAdFromFavorites(ad)">
                         Delete
                       </button>
                     </div>
@@ -56,6 +42,7 @@
               <ng-template ngbPanelContent>
                 <form class="form-ad col-12">
                   <div class="row">
+
                     <img class="col-lg-4 mb-3 picture-div" src="{{ad.picture}}">
                     <div class="col-lg-4">
                       <h4>Specifications</h4>
@@ -103,7 +90,8 @@
         </div>
 
       </div>
-      <h2 class="mt-4 mb-4 text-center text-muted" *ngIf="ads.length == 0">Currently you have no ads</h2>
+      <h2 class="mt-4 mb-4 text-center text-muted" *ngIf="favoriteAds.length == 0">Currently you have no favorite ads
+      </h2>
     </form>
   </div>
 </div>

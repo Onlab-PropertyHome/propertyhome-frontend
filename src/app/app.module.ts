@@ -27,6 +27,7 @@ import { EditAdModalComponent } from './modals/edit-ad-modal/edit-ad-modal.compo
 import { AgmMarkerClustererModule } from '@agm/markerclusterer';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { FavoriteAdsComponent } from './favorite-ads/favorite-ads.component';
 
 
 export function tokenGetter() {
@@ -50,6 +51,7 @@ export function tokenGetter() {
     InfoModalComponent,
     AddAdModalComponent,
     EditAdModalComponent,
+    FavoriteAdsComponent,
   ],
   imports: [
     BrowserModule,

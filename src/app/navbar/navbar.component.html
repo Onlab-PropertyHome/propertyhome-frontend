@@ -31,7 +31,7 @@
                         <div ngbDropdownMenu aria-labelledby="dropdown">
                           <button ngbDropdownItem [routerLink]="['/details', getId()]" routerLinkActive="active">View Profile</button>
                           <button ngbDropdownItem routerLink="/ads" routerLinkActive="active">Your Ads</button>
-                          <button ngbDropdownItem class="disabled">Favorite Ads</button>
+                          <button ngbDropdownItem routerLink="/favorite-ads" routerLinkActive="active">Favorite Ads</button>
                           <button ngbDropdownItem (click)="authService.logoutUser()">Logout</button>
                         </div>
                     </div>

@@ -36,8 +36,12 @@
     background-color: #ffffff;
 }
 
-.right-column > img {
+.right-column > div > img {
     width: 150px;
     border-radius: 10px;
     border: 2px solid black;
+}
+
+#notAvailableTel {
+    font-style: italic;
 }
