@@ -1,14 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AmazonService } from '../services/amazon.service';
-import { AuthService } from '../services/auth.service';
+import { AmazonService } from '../../services/amazon.service';
+import { AuthService } from '../../services/auth.service';
 import { DeleteModalComponent } from '../modals/delete-modal/delete-modal.component';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
-import { User } from '../models/user';
-import { AdSearch } from '../models/adsearch';
+import { User } from '../../models/user';
+import { AdSearch } from '../../models/adsearch';
 
 @Component({
   selector: 'app-profiledetails',
@@ -102,7 +102,7 @@ export class ProfiledetailsComponent implements OnInit {
       this.openInfoModal('Error', 'There are no changes!');
     } else {
       this.service.save(user_id, name, email, password, tel, await picture)
-      .subscribe(
+      .toPromise().then(
         (response) => {
           this.setIsEditing();
           this.detailsForm.reset();
@@ -115,7 +115,7 @@ export class ProfiledetailsComponent implements OnInit {
         (err_response: HttpErrorResponse) => {
           this.openInfoModal('Error', err_response.error.message);
         }
-      )
+      );
     }
   }
 
@@ -152,7 +152,7 @@ export class ProfiledetailsComponent implements OnInit {
 
   loadProfile() {
     const userId = +this.route.snapshot.paramMap.get('id');
-    this.service.getById(userId).subscribe(
+    this.service.getById(userId).toPromise().then(
       (response: User) => { 
         this.user = response;
         if (!this.user.picture) {
@@ -183,7 +183,7 @@ export class ProfiledetailsComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.openInfoModal('Error', error.error.message);
       }
-    )
+    );
   }
 
   public setIsEditing() : void {

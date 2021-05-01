@@ -2,12 +2,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdvertisementService } from '../services/advertisement.service';
-import { AuthService } from '../services/auth.service';
+import { AdvertisementService } from '../../services/advertisement.service';
+import { AuthService } from '../../services/auth.service';
 import { AdDetailsComponent } from '../modals/ad-details/ad-details.component';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
-import { Ad } from '../models/ad';
-import { User, UserDetails } from '../models/user';
+import { Ad } from '../../models/ad';
+import { User, UserDetails } from '../../models/user';
 
 
 @Component({
@@ -109,10 +109,10 @@ export class HomeComponent implements OnInit {
         (res) => {
           alert("Search saved successfully");
         }
-      )
+      );
     }
 
-    this.service.search(rooms, type, size, priceRange, location).subscribe(
+    this.service.search(rooms, type, size, priceRange, location).toPromise().then(
       (response: Ad[]) => {
         // console.log(response);
         this.setNoAds(false);
@@ -174,30 +174,30 @@ export class HomeComponent implements OnInit {
 
   public likeAd(ad: Ad) {
     const user_id: number = +localStorage.getItem('user_id');
-    this.authService.addToFav(user_id, ad.ad_id).subscribe(
+    this.authService.addToFav(user_id, ad.ad_id).toPromise().then(
       (response) => {
         window.location.reload();
       },
       (err_response: HttpErrorResponse) => {
         this.openInfoModal('Error', err_response.error.message);
       }
-    )
+    );
   }
 
   public dislikeAd(ad: Ad) {
     const user_id: number = +localStorage.getItem('user_id');
-    this.authService.deleteAdFromFav(user_id, ad.ad_id).subscribe(
+    this.authService.deleteAdFromFav(user_id, ad.ad_id).toPromise().then(
       (response) => {
         window.location.reload();
       },
       (err_response: HttpErrorResponse) => {
         this.openInfoModal('Error', err_response.error.message);
       }
-    )
+    );
   }
 
   public viewInfo(ad: Ad) {
-    this.authService.findUserByAdId(ad.ad_id).subscribe(
+    this.authService.findUserByAdId(ad.ad_id).toPromise().then(
       (response: UserDetails) => {
         let userDetails: UserDetails = response;
         console.log(userDetails);
@@ -206,7 +206,7 @@ export class HomeComponent implements OnInit {
       (err_response: HttpErrorResponse) => {
         this.openInfoModal('Error', err_response.error.message);
       }
-    )
+    );
   }
 
   public openDetailsModal(ad: Ad, userDetails: UserDetails) {
@@ -225,21 +225,5 @@ export class HomeComponent implements OnInit {
     modalRef.result.then((data) => {
       console.log(`AdDetailsComponent has been closed with: ${data}`);
     });
-  }
-
-  public test() {
-    let userDetails: UserDetails = {
-      name: "asd",
-      tel: "asdasd",
-      picture: "null"
-    }
-
-    console.log(userDetails);
-
-    this.authService.testBody(userDetails).subscribe(
-      (response) => {
-        alert(JSON.stringify(response));
-      }
-    )
   }
 }

@@ -1,13 +1,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdvertisementService } from '../services/advertisement.service';
-import { AmazonService } from '../services/amazon.service';
-import { AuthService } from '../services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AdvertisementService } from '../../services/advertisement.service';
+import { AmazonService } from '../../services/amazon.service';
+import { AuthService } from '../../services/auth.service';
 import { GoogleMapLocationChooserComponent } from '../modals/google-map-location-chooser/google-map-location-chooser.component';
 import { DeleteModalComponent } from '../modals/delete-modal/delete-modal.component';
-import { Ad } from '../models/ad';
-import { User } from '../models/user';
+import { Ad } from '../../models/ad';
+import { User } from '../../models/user';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AddAdModalComponent } from '../modals/add-ad-modal/add-ad-modal.component';
@@ -22,11 +22,9 @@ import { EditAdModalComponent } from '../modals/edit-ad-modal/edit-ad-modal.comp
 export class AdsComponent implements OnInit {
   public ads: Ad[] = [];
   public url: string = "";
-  private closeResult: string = '';
   public createAdForm: FormGroup;
   public editAdForm: FormGroup;
   public fileChoosen: boolean = false;
-  private fileToUpload: File = null;
   private location: string = null;
   private latitude: number = null;
   private longitude: number = null;
@@ -121,46 +119,9 @@ export class AdsComponent implements OnInit {
       event.preventDefault();
   }
 
-  public open(content, ad?: Ad) {
-    if(ad != null)
-      this.temp = ad;
-    
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, scrollable: true, size: "lg", backdrop: "static", keyboard: false }).result
-    .then((result) => {
-      if (result == 'edit') {
-        this.fileChoosen = false;
-        this.edit(this.temp);
-        this.createAdForm.reset();
-      }
-
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.location = null;
-      this.latitude = null;
-      this.longitude = null;
-
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    })
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else if (reason == 'Cross click') {
-      this.fileChoosen = false;
-      this.createAdForm.reset();
-      return `with: ${reason}`;
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
   public onSelectFile(event) {
     if (event.target.files) {
       this.fileChoosen = true;
-      this.fileToUpload = event.target.files[0];
       let reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (e: any) => {
@@ -212,32 +173,6 @@ export class AdsComponent implements OnInit {
 
   public isLocationChoosen() {
     return this.location;
-  }
-
-  public edit(ad: Ad) {
-    let ad_id: number = ad.ad_id,
-    size: number = (this.editAdForm.value.inputSize == "" || !this.editAdForm.value.inputSize) ? ad.property.size : this.editAdForm.value.inputSize,
-    picture: string = ad.picture,
-    room: number = (this.editAdForm.value.inputRoom == "" || !this.editAdForm.value.inputRoom) ? ad.property.roomNumber : this.editAdForm.value.inputRoom,
-    price: string = (this.editAdForm.value.inputPrice == "" || !this.editAdForm.value.inputPrice) ? ad.price : this.editAdForm.value.inputPrice,
-    type: string = (this.editAdForm.value.selectType == "" || !this.editAdForm.value.selectType) ? ad.property.type : this.editAdForm.value.selectType,
-    state: string = (this.editAdForm.value.selectState == "" || !this.editAdForm.value.selectState) ? ad.property.state : this.editAdForm.value.selectState,
-    location: string = (!this.location) ? ad.location : this.location,
-    latitude: number = (!this.latitude) ? ad.property.lat : this.latitude,
-    longitude: number = (!this.longitude) ? ad.property.lng : this.longitude,
-    details: string = (this.editAdForm.value.inputDetails == "" || !this.editAdForm.value.inputDetails) ? ad.details : this.editAdForm.value.inputDetails.replace(/ +/g, ' ');
-
-    this.adService.edit(ad_id, size, room, price, type, state, details, location, latitude, longitude, picture).subscribe(
-      (result: Ad) => {
-        this.refreshAds();
-        this.location = null;
-        this.latitude = null;
-        this.longitude = null;
-      },
-      (err_response: HttpErrorResponse) => {
-        this.openInfoModal('Error', err_response.error.message);
-      }
-    )
   }
 
   public openDeleteModal(ad: Ad) {

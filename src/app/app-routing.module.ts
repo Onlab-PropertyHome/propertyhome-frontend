@@ -1,14 +1,14 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdsComponent } from './ads/ads.component';
-import { FavoriteAdsComponent } from './favorite-ads/favorite-ads.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { MapComponent } from './map/map.component';
-import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
-import { ProfiledetailsComponent } from './profiledetails/profiledetails.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { AdsComponent } from './components/ads/ads.component';
+import { FavoriteAdsComponent } from './components/favorite-ads/favorite-ads.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { MapComponent } from './components/map/map.component';
+import { PagenotfoundComponent } from './components/pagenotfound/pagenotfound.component';
+import { ProfiledetailsComponent } from './components/profiledetails/profiledetails.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 
 const routes: Routes = [

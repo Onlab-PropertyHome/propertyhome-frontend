@@ -45,7 +45,7 @@ export class DeleteModalComponent implements OnInit {
   delete() {
     switch (this.bound) {
       case 'profile':
-        this.authService.delete(+this.param).subscribe(
+        this.authService.delete(+this.param).toPromise().then(
           (response) => {
             this.openInfoModal('Info', 'User profile has been deleted successfully');
             this.amazonService.deleteEveryImage(+this.param);
@@ -58,7 +58,7 @@ export class DeleteModalComponent implements OnInit {
         );
         break;
       case 'advertisement':
-        this.adService.delete(+this.param).subscribe(
+        this.adService.delete(+this.param).toPromise().then(
           (response) => {
             this.openInfoModal('Info', 'Advertisement has been deleted successfully');
             this.closeModal('yes');

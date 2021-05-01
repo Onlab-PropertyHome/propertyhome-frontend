@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { InfoModalComponent } from './modals/info-modal/info-modal.component';
+import { InfoModalComponent } from './components/modals/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-root',

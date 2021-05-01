@@ -1,67 +1,44 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
-import { MustMatch } from '../must.match';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { AuthResponse } from '../models/response';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../services/auth.service';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
-
-
+import { AuthResponse } from '../../models/response';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
-export class RegistrationComponent implements OnInit {
-  message: any;
-  registerForm: FormGroup;
-  validationMessage: string = null;
-  checked: boolean = false;
+export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
 
   constructor(
     private service: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
     private modalService: NgbModal
-  ) {
-    this.registerForm = this.formBuilder.group({
+    ) {     
+    this.loginForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
         Validators.email
-
-      ]),
-      inputName: new FormControl('', [
-        Validators.required
       ]),
       inputPassword: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(20)
-      ]),
-      inputPasswordConf: new FormControl('', [
-        Validators.required
-      ]),
-      Checkbox: new FormControl('', [
         Validators.required
       ])
-    }, { validator: MustMatch('inputPassword', 'inputPasswordConf') });
+    });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
 
-  public fnc() {
-    if (!this.checked) {
-      this.checked = true;
-
-    }
-    else {
-      this.checked = false;
-      this.registerForm.get('Checkbox').reset();
-    }
+  public open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', backdrop: "static", keyboard: false}).result
+    .then((result) => { }, (reason) => { })
   }
 
   public openInfoModal(title: string, text: string) {
@@ -70,7 +47,7 @@ export class RegistrationComponent implements OnInit {
       centered: true,
       scrollable: true,
       backdrop: "static",
-      keyboard: false
+      keyboard: false 
     });
 
     modalRef.componentInstance.modal_title = title;
@@ -81,33 +58,35 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  public registerNow(formValues: FormGroup) {
+  public loginNow(formValues: FormGroup) {
     if (!formValues.valid) {
       console.log('Form is invalid');
       return;
     }
 
-    console.log(formValues.value.inputName);
-    this.service.register(
-      formValues.value.inputName, formValues.value.inputEmail, formValues.value.inputPassword, null
-    ).subscribe(
+    this.service.login(
+      formValues.value.inputEmail,
+      formValues.value.inputPassword
+      ).toPromise().then(
       (response: AuthResponse) => {
         console.log(response.jwt);
         localStorage.setItem('token', response.jwt);
         const helper = new JwtHelperService();
         const decodedToken = helper.decodeToken(response.jwt);
         localStorage.setItem('user_id', decodedToken.jti);
-        this.openInfoModal('Info', 'Successfully registration');
         this.router.navigate(['/home']);
       },
       (err_response: HttpErrorResponse) => {
-        if (err_response.status == 400) {
-          this.registerForm.get('inputEmail').reset();
+        if (err_response.status == 401) {
+          this.loginForm.get('inputPassword').reset();
         }
-        this.registerForm.get('inputPassword').reset();
-        this.registerForm.get('inputPasswordConf').reset();
+
+        if (err_response.status == 404) {
+          this.loginForm.reset();
+        }
+
         this.openInfoModal('Error', err_response.error.message);
       }
-    )
+    );
   }
 }

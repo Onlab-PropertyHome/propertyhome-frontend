@@ -72,7 +72,7 @@ export class EditAdModalComponent implements OnInit {
     longitude: number = (!this.longitude) ? ad.property.lng : this.longitude,
     details: string = (this.editAdForm.value.inputDetails == "" || !this.editAdForm.value.inputDetails) ? ad.details : this.editAdForm.value.inputDetails.replace(/ +/g, ' ');
 
-    this.adService.edit(ad_id, size, room, price, type, state, details, location, latitude, longitude, picture).subscribe(
+    this.adService.edit(ad_id, size, room, price, type, state, details, location, latitude, longitude, picture).toPromise().then(
       (result: Ad) => {
         
         this.location = null;
@@ -84,7 +84,7 @@ export class EditAdModalComponent implements OnInit {
       (err_response: HttpErrorResponse) => {
         this.openInfoModal('Error', err_response.error.message);
       }
-    )
+    );
   }
 
   public onSelectFile(event) {

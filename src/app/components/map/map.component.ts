@@ -4,11 +4,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdDetailsComponent } from '../modals/ad-details/ad-details.component';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
-import { Ad } from '../models/ad';
-import { Marker } from '../models/marker';
-import { UserDetails } from '../models/user';
-import { AdvertisementService } from '../services/advertisement.service';
-import { AuthService } from '../services/auth.service';
+import { Ad } from '../../models/ad';
+import { Marker } from '../../models/marker';
+import { UserDetails } from '../../models/user';
+import { AdvertisementService } from '../../services/advertisement.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-map',

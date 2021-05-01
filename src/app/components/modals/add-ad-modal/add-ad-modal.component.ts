@@ -45,7 +45,7 @@ export class AddAdModalComponent implements OnInit {
       state: string = this.createAdForm.value.selectState,
       details: string = this.createAdForm.value.inputDetails.replace(/ +/g, ' ');
 
-    this.adService.add(user_id, size, room, price, type, state, details, this.location, this.latitude, this.longitude, await picture).subscribe(
+    this.adService.add(user_id, size, room, price, type, state, details, this.location, this.latitude, this.longitude, await picture).toPromise().then(
       (result: Ad) => {
         this.location = null;
         this.latitude = null;

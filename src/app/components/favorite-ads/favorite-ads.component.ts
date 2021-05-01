@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Ad } from '../models/ad';
-import { User } from '../models/user';
-import { AdvertisementService } from '../services/advertisement.service';
-import { AuthService } from '../services/auth.service';
+import { Ad } from '../../models/ad';
+import { User } from '../../models/user';
+import { AdvertisementService } from '../../services/advertisement.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-favorite-ads',
