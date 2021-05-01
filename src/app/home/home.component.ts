@@ -26,7 +26,9 @@ export class HomeComponent implements OnInit {
       inputSize: new FormControl('', []),
       inputRooms: new FormControl('', []),
       selectType: new FormControl('', []),
-      selectPriceRange: new FormControl('All', [])
+      selectPriceRange: new FormControl('All', []),
+      inputLocation: new FormControl('', []),
+      cbSaveSearch: new FormControl(false, [])
     });
   }
 
@@ -73,7 +75,7 @@ export class HomeComponent implements OnInit {
   }
 
   public search() {
-    let size: number, rooms: number, type: string, priceRange: string;
+    let size: number, rooms: number, type: string, priceRange: string, location: string;
     let formValueOf = this.searchForm.value;
 
     if (formValueOf.inputSize == '') {
@@ -94,9 +96,23 @@ export class HomeComponent implements OnInit {
       type = formValueOf.selectType;
     }
 
+    if (formValueOf.inputLocation == '') {
+      location = null;
+    } else {
+      location = formValueOf.inputLocation;
+    }
+
     priceRange = formValueOf.selectPriceRange;
 
-    this.service.search(rooms, type, size, priceRange).subscribe(
+    if (formValueOf.cbSaveSearch) {
+      this.authService.saveSearch(+localStorage.getItem('user_id'), rooms, type, size, priceRange, location).toPromise().then(
+        (res) => {
+          alert("Search saved successfully");
+        }
+      )
+    }
+
+    this.service.search(rooms, type, size, priceRange, location).subscribe(
       (response: Ad[]) => {
         // console.log(response);
         this.setNoAds(false);
@@ -111,7 +127,7 @@ export class HomeComponent implements OnInit {
           this.openInfoModal('Error', err_response.error.message);
         }
       }
-    )
+    );
   }
 
   public isAdLiked(ad: Ad) : boolean {

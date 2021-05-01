@@ -1,4 +1,5 @@
 import { Ad } from "./ad";
+import { AdSearch } from "./adsearch";
 
 export interface User {
     id: number,
@@ -8,7 +9,8 @@ export interface User {
     tel: string,
     picture: string,
     favAds: number[],
-    ads: Ad[]
+    ads: Ad[],
+    searches: AdSearch[]
 }
 
 export interface UserDetails {

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AdSearch } from '../models/adsearch';
 import { AuthResponse } from '../models/response';
 import { User, UserDetails } from '../models/user';
 
@@ -131,5 +132,41 @@ export class AuthService {
   public testBody(userDetails: UserDetails) : Observable<any> {
 
     return this.httpClient.post<any>(`https://onlab-alberletdb.herokuapp.com/test2`, userDetails);
+  }
+
+  public saveSearch(id: number, rooms: number, type: string, size: number, price: string, location: string) {
+    let httpParams: HttpParams = new HttpParams();
+
+    if (rooms) {
+      httpParams = httpParams.set('roomNumber', rooms.toString());
+    }
+
+    if (type) {
+      httpParams = httpParams.set('type', type);
+    }
+
+    if (size) {
+      httpParams = httpParams.set('size', size.toString());
+    }
+
+    if (location) {
+      httpParams = httpParams.set('location', location);
+    }
+
+    httpParams = httpParams.set('price', price);
+
+    const options = {
+      params: httpParams
+    };
+
+    return this.httpClient.put<any>(`${this.baseUrl}user/${id}/savesearch`, null, options);
+  }
+
+  public getAllSavedSearch(id: number) : Observable<AdSearch[]> {
+    return this.httpClient.get<AdSearch[]>(`${this.baseUrl}user/${id}/searches`);
+  }
+
+  public removeSavedSearch(user_id: number, id: number) {
+    return this.httpClient.put<any>(`${this.baseUrl}user/${user_id}/removesearch/${id}`, null);
   }
 }

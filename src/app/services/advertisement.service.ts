@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { Ad } from '../models/ad';
+import { AdSearch } from '../models/adsearch';
 
 @Injectable({
   providedIn: 'root'
@@ -27,19 +28,23 @@ export class AdvertisementService {
     return forkJoin(responseArray);
   }
 
-  public search(rooms: number, type: string, size: number, price: string) : Observable<Ad[]> {
+  public search(rooms: number, type: string, size: number, price: string, location: string) : Observable<Ad[]> {
     let httpParams: HttpParams = new HttpParams();
 
-    if (rooms != null) {
+    if (rooms) {
       httpParams = httpParams.set('roomNumber', rooms.toString());
     }
 
-    if (type != null) {
+    if (type) {
       httpParams = httpParams.set('type', type);
     }
 
-    if (size != null) {
+    if (size) {
       httpParams = httpParams.set('size', size.toString());
+    }
+
+    if (location) {
+      httpParams = httpParams.set('location', location);
     }
 
     httpParams = httpParams.set('price', price);
@@ -47,8 +52,6 @@ export class AdvertisementService {
     const options = {
       params: httpParams
     };
-
-    console.log(httpParams.get('price'));
     
     return this.httpClient.get<Ad[]>(`${this.baseUrl}ad/find`, options);
   }

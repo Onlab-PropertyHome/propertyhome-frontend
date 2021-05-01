@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 import { DeleteModalComponent } from '../modals/delete-modal/delete-modal.component';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { User } from '../models/user';
+import { AdSearch } from '../models/adsearch';
 
 @Component({
   selector: 'app-profiledetails',
@@ -19,6 +20,7 @@ export class ProfiledetailsComponent implements OnInit {
   private isEditing: boolean = false;
   public detailsForm: FormGroup;
   public selectedPicture: File;
+  public savedSearches: AdSearch[] = [];
 
   @ViewChild('canvas')
   private canvas: HTMLCanvasElement;
@@ -162,6 +164,26 @@ export class ProfiledetailsComponent implements OnInit {
         this.router.navigate(['/not-found']);
       }
     );
+
+    this.service.getAllSavedSearch(userId).toPromise().then(
+      (response: AdSearch[]) => {
+        this.savedSearches = response;
+      },
+      (error: HttpErrorResponse) => {
+        this.openInfoModal('Error', error.error.message);
+      }
+    );
+  }
+
+  deleteSearch(id: number) {
+    this.service.removeSavedSearch(this.user.id, id).toPromise().then(
+      (response) => {
+        this.savedSearches.splice(this.savedSearches.findIndex(s => s.id === id), 1);
+      },
+      (error: HttpErrorResponse) => {
+        this.openInfoModal('Error', error.error.message);
+      }
+    )
   }
 
   public setIsEditing() : void {

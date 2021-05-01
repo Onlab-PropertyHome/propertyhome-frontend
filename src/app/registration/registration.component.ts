@@ -20,19 +20,19 @@ export class RegistrationComponent implements OnInit {
   message: any;
   registerForm: FormGroup;
   validationMessage: string = null;
-  checked : boolean = false;
+  checked: boolean = false;
 
   constructor(
     private service: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
     private modalService: NgbModal
-    ) { 
+  ) {
     this.registerForm = this.formBuilder.group({
       inputEmail: new FormControl('', [
         Validators.required,
         Validators.email
-        
+
       ]),
       inputName: new FormControl('', [
         Validators.required
@@ -53,15 +53,15 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  public fnc(){
-   
-   
-   if(!this.checked){
-     this.checked = true;
+  public fnc() {
+    if (!this.checked) {
+      this.checked = true;
 
-   }
-   else{this.checked = false;
-    this.registerForm.get('Checkbox').reset();}
+    }
+    else {
+      this.checked = false;
+      this.registerForm.get('Checkbox').reset();
+    }
   }
 
   public openInfoModal(title: string, text: string) {
@@ -70,7 +70,7 @@ export class RegistrationComponent implements OnInit {
       centered: true,
       scrollable: true,
       backdrop: "static",
-      keyboard: false 
+      keyboard: false
     });
 
     modalRef.componentInstance.modal_title = title;
@@ -90,7 +90,7 @@ export class RegistrationComponent implements OnInit {
     console.log(formValues.value.inputName);
     this.service.register(
       formValues.value.inputName, formValues.value.inputEmail, formValues.value.inputPassword, null
-      ).subscribe(
+    ).subscribe(
       (response: AuthResponse) => {
         console.log(response.jwt);
         localStorage.setItem('token', response.jwt);

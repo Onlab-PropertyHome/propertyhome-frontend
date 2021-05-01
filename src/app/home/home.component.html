@@ -30,7 +30,7 @@
                                     <option value="concrete">Concrete</option>
                                 </select>
                             </div>
-                            <div class="col-lg-4 col-md-6 col-sm-12 p-0 ml-1 mr-1">
+                            <div class="col-lg-2 col-md-6 col-sm-12 p-0 ml-1 mr-1">
                                 <select class="form-control search-slt" id="formSelectPriceRange"
                                     name="formSelectPriceRange" formControlName="selectPriceRange">
                                     <option value="All">All</option>
@@ -42,9 +42,18 @@
                                     <option value="Above100000">Above $100.000</option>
                                 </select>
                             </div>
+                            <div class="col-lg-2 col-md-6 col-sm-12 p-0 ml-1 mr-1">
+                                <input class="form-control search-slt" id="formInputLocation"
+                                    name="inputLocation" formControlName="inputLocation" placeholder="Location"/>
+                            </div>
                             <div class="col-lg-1 col-md-3 col-sm-12 p-0 ml-1">
                                 <button type="button" class="btn btn-danger" (click)="search()">Search</button>
                             </div>
+                        </div>
+                        <br>
+                        <div class="form-check mb-2" *ngIf="isLoggedIn()" style="background-color: white;">
+                            <mat-checkbox class="form-check-input" id="acceptCheckbox" formControlName="cbSaveSearch"></mat-checkbox>
+                            <label style="color: black; width: auto;" class="form-check-label" for="acceptCheckbox">Do you want to save this search?</label>
                         </div>
                     </div>
                 </div>

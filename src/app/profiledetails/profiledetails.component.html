@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <div class="container py-5">
   <div class="row mb-3">
     <h4 class="mb-0 col-6">Profile Details</h4>
@@ -7,8 +9,7 @@
   </div>
 
   <div class="row">
-    <div *ngIf="user" 
-      class="col-3"
+    <div *ngIf="user" class="col-3"
       style="margin: 10px; background: url({{user.picture}}) 50% 50% no-repeat; background-size: cover; height: 100%; aspect-ratio: 1;">
     </div>
     <form class="form-details col-8" [formGroup]="detailsForm">
@@ -70,5 +71,40 @@
         </div>
       </div>
     </form>
+  </div>
+
+  <div class="mt-3 mb-3" *ngIf="savedSearches">
+    <h4>Saved searches</h4>
+    <div *ngIf="savedSearches.length != 0">
+      <table class="table table-striped w-50">
+        <thead>
+          <tr>
+            <th scope="col">Location</th>
+            <th scope="col">Size</th>
+            <th scope="col">Room number</th>
+            <th scope="col">Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let search of savedSearches">
+            <td>{{ search.location == null ? '-' : search.location }}</td>
+            <td>{{ search.size == null ? '-' : search.size }}</td>
+            <td>{{ search.roomNumber == null ? '-' : search.roomNumber }}</td>
+            <td>{{ search.type == null ? '-' : search.type }}</td>
+            <td>{{ search.price == null ? '-' : search.price }}</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteSearch(search.id)">
+                <i class="material-icons">delete</i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="savedSearches.length == 0">
+      <p>You have 0 saved searches.</p>
+    </div>
   </div>
 </div>
