@@ -14,7 +14,7 @@ export class AuthService {
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
  //  private baseUrl: string = "http://localhost:8080/api/";
 
-  constructor(@Optional() private httpClient: HttpClient, @Optional() private router: Router) { }
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   public login(email: string, password: string) : Observable<AuthResponse> {
     const options = {
