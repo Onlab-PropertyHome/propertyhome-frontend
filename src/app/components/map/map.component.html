@@ -1,4 +1,4 @@
-<div class="container py-5">
+<div id="map" class="container py-5">
   <agm-map #agmMap [scrollwheel]="true" [zoom]="zoom" [latitude]="47.49801" [longitude]="19.03991" (mapReady)="onMapLoad($event)">
     <agm-marker-cluster>
       <div *ngFor="let marker of markers">

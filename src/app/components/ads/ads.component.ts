@@ -161,7 +161,7 @@ export class AdsComponent implements OnInit {
   private refreshAds() {
     let id: number = +localStorage.getItem('user_id');
     this.service.getById(id)
-    .subscribe(
+    .toPromise().then(
       (user: User) => {
         this.ads = user.ads;
       },
