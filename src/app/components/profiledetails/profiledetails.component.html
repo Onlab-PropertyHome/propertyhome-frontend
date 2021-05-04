@@ -85,6 +85,7 @@
             <th scope="col">Type</th>
             <th scope="col">Price</th>
             <th scope="col">Delete</th>
+            <th scope="col">Go</th>
           </tr>
         </thead>
         <tbody>
@@ -97,6 +98,11 @@
             <td>
               <button class="btn btn-danger btn-sm" (click)="deleteSearch(search.id)">
                 <i class="material-icons">delete</i>
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="goSearch(search.id)">
+                <i class="material-icons">search</i>
               </button>
             </td>
           </tr>

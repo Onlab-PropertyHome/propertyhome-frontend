@@ -12,6 +12,7 @@ import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AddAdModalComponent } from '../modals/add-ad-modal/add-ad-modal.component';
 import { EditAdModalComponent } from '../modals/edit-ad-modal/edit-ad-modal.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class AdsComponent implements OnInit {
   public isMobile = false;
   public windowWidth: number;
 
-  constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService) {
+  constructor(private service: AuthService, private adService: AdvertisementService, private modalService: NgbModal, private formBuilder: FormBuilder,private aws: AmazonService, private router: Router) {
     this.createAdForm = this.formBuilder.group({
       inputSize: new FormControl(),
       inputRoom: new FormControl(),
@@ -83,8 +84,6 @@ export class AdsComponent implements OnInit {
       keyboard: false 
     });
 
-  
-
     modalRef.result.then((data) => {
       if(data) {
         this.refreshAds();
@@ -104,7 +103,6 @@ export class AdsComponent implements OnInit {
 
     modalRef.componentInstance.temp = ad;
   
-
     modalRef.result.then((data) => {
       if(data) {
         this.refreshAds();
@@ -167,6 +165,9 @@ export class AdsComponent implements OnInit {
       },
       (err_response: HttpErrorResponse) => {
         this.openInfoModal('Error', err_response.error.message);
+        if(err_response.error.message === 'User not found.') {
+          this.router.navigate(['/login']);
+        }
       }
     )
   }

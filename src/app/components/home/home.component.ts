@@ -8,6 +8,7 @@ import { AdDetailsComponent } from '../modals/ad-details/ad-details.component';
 import { InfoModalComponent } from '../modals/info-modal/info-modal.component';
 import { Ad } from '../../models/ad';
 import { User, UserDetails } from '../../models/user';
+import { AdSearch } from 'src/app/models/adsearch';
 
 
 @Component({
@@ -18,18 +19,30 @@ import { User, UserDetails } from '../../models/user';
 export class HomeComponent implements OnInit {
   public ads: Ad[] = [];
   public searchForm: FormGroup;
-  public noAds: boolean = false;
   private user: User = null;
 
   constructor(private service: AdvertisementService, private authService: AuthService, private formBuilder: FormBuilder, private modalService: NgbModal) {
-    this.searchForm = formBuilder.group({
-      inputSize: new FormControl('', []),
-      inputRooms: new FormControl('', []),
-      selectType: new FormControl('', []),
-      selectPriceRange: new FormControl('All', []),
-      inputLocation: new FormControl('', []),
-      cbSaveSearch: new FormControl(false, [])
-    });
+    if (localStorage.getItem('search')) {
+      let search = <AdSearch>JSON.parse(localStorage.getItem('search'));
+      this.searchForm = formBuilder.group({
+        inputSize: new FormControl(search.size != null ? search.size : '', []),
+        inputRooms: new FormControl(search.roomNumber != null ? search.roomNumber : '', []),
+        selectType: new FormControl(search.type, []),
+        selectPriceRange: new FormControl(search.price, []),
+        inputLocation: new FormControl(search.location, []),
+        cbSaveSearch: new FormControl(false, [])
+      });
+      localStorage.removeItem('search');
+    } else {
+      this.searchForm = formBuilder.group({
+        inputSize: new FormControl('', []),
+        inputRooms: new FormControl('', []),
+        selectType: new FormControl('', []),
+        selectPriceRange: new FormControl('All', []),
+        inputLocation: new FormControl('', []),
+        cbSaveSearch: new FormControl(false, [])
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -66,14 +79,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  public getNoAds() : boolean {
-    return this.noAds;
-  }
-
-  public setNoAds(bool: boolean) {
-    this.noAds = bool;
-  }
-
   public search() {
     let size: number, rooms: number, type: string, priceRange: string, location: string;
     let formValueOf = this.searchForm.value;
@@ -107,23 +112,19 @@ export class HomeComponent implements OnInit {
     if (formValueOf.cbSaveSearch) {
       this.authService.saveSearch(+localStorage.getItem('user_id'), rooms, type, size, priceRange, location).toPromise().then(
         (res) => {
-          alert("Search saved successfully");
+          this.openInfoModal('Info', 'Search saved successfully');
+          this.searchForm.get('cbSaveSearch').reset();
         }
       );
     }
 
     this.service.search(rooms, type, size, priceRange, location).toPromise().then(
       (response: Ad[]) => {
-        // console.log(response);
-        this.setNoAds(false);
         this.ads = response;
       },
       (err_response: HttpErrorResponse) => {
         this.ads = [];
-        if (err_response.error.message == "Ad is not found") {
-          this.setNoAds(true);
-        }
-        else {
+        if (err_response.error.message != "Ad is not found") {
           this.openInfoModal('Error', err_response.error.message);
         }
       }

@@ -39,7 +39,7 @@ describe('MapComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('mapp should be visible', () => {
+  it('map should be visible', () => {
     expect(fixture.debugElement.query(By.css("#map"))).toBeTruthy();
   });
 });

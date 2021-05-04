@@ -186,6 +186,36 @@ export class ProfiledetailsComponent implements OnInit {
     );
   }
 
+  goSearch(id: number) {
+    const search = {
+      location: '',
+      roomNumber: null,
+      size: null,
+      type: '',
+      price: 'All'
+    };
+
+    let adSearch = this.savedSearches.find(s => s.id === id);
+    if (adSearch.location) {
+      search.location = adSearch.location;
+    }
+    if (adSearch.roomNumber) {
+      search.roomNumber = adSearch.roomNumber;
+    }
+    if (adSearch.price) {
+      search.price = adSearch.price;
+    }
+    if (adSearch.size) {
+      search.size = adSearch.size;
+    }
+    if (adSearch.type) {
+      search.type = adSearch.type;
+    }
+
+    localStorage.setItem('search', JSON.stringify(search));
+    this.router.navigate(['/home']);
+  }
+
   public setIsEditing() : void {
     this.isEditing = !this.isEditing;
   }

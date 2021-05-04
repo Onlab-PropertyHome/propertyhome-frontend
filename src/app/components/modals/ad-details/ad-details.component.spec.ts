@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AdDetailsComponent } from './ad-details.component';
 
@@ -8,7 +9,8 @@ describe('AdDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdDetailsComponent ]
+      declarations: [ AdDetailsComponent ],
+      providers: [ NgbActiveModal ]
     })
     .compileComponents();
   });

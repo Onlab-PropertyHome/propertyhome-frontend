@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { InfoModalComponent } from './info-modal.component';
 
@@ -8,7 +9,8 @@ describe('InfoModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InfoModalComponent ]
+      declarations: [ InfoModalComponent ],
+      providers: [ NgbActiveModal ]
     })
     .compileComponents();
   });
