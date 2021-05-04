@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AdSearch } from '../models/adsearch';
@@ -14,7 +14,7 @@ export class AuthService {
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
  //  private baseUrl: string = "http://localhost:8080/api/";
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(@Optional() private httpClient: HttpClient, @Optional() private router: Router) { }
 
   public login(email: string, password: string) : Observable<AuthResponse> {
     const options = {
