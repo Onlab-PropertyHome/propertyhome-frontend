@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Ad } from 'src/app/models/ad';
 import { AdvertisementService } from 'src/app/services/advertisement.service';
 import { AmazonService } from 'src/app/services/amazon.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -46,9 +47,9 @@ export class DeleteModalComponent implements OnInit {
     switch (this.bound) {
       case 'profile':
         this.authService.delete(+this.param).toPromise().then(
-          (response) => {
-            this.openInfoModal('Info', 'User profile has been deleted successfully');
+          () => {
             this.amazonService.deleteEveryImage(+this.param);
+            this.openInfoModal('Info', 'User profile has been deleted successfully');
             this.closeModal('yes');
           },
           (err_response) => {
@@ -58,10 +59,21 @@ export class DeleteModalComponent implements OnInit {
         );
         break;
       case 'advertisement':
-        this.adService.delete(+this.param).toPromise().then(
-          (response) => {
-            this.openInfoModal('Info', 'Advertisement has been deleted successfully');
-            this.closeModal('yes');
+        this.adService.getMultipleAds([ +this.param ]).toPromise().then(
+          (response: Ad[]) => {
+            let ad = response[0];
+
+            this.adService.delete(+this.param).toPromise().then(
+              () => {
+                this.amazonService.deleteAdImage(ad.picture);
+                this.openInfoModal('Info', 'Advertisement has been deleted successfully');
+                this.closeModal('yes');
+              },
+              (err_response) => {
+                this.openInfoModal('Error', `${err_response.error.message}`);
+                this.closeModal('error');
+              }
+            );
           },
           (err_response) => {
             this.openInfoModal('Error', `${err_response.error.message}`);

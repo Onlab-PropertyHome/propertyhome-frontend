@@ -60,17 +60,19 @@ export class AmazonService {
   }
 
   public deleteAdImage(ad_picture: string) {
-    const key = ad_picture.split('.com/')[1];
+    const Key = ad_picture.split('.com/')[1];
     const aws = this.getS3Bucket();
 
-    const params = {
+    const deleteParams = {
       Bucket: this.BUCKET,
       Delete: { Objects: [] }
     };
 
-    params.Delete.Objects.push(key);
+    deleteParams.Delete.Objects.push({ Key });
 
-    aws.deleteObjects(params, (err, result) => {
+    console.log(deleteParams.Delete.Objects);
+
+    aws.deleteObjects(deleteParams, (err, result) => {
       if (err) {
         console.log(err);
         return;

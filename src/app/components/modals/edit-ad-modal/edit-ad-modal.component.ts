@@ -59,10 +59,18 @@ export class EditAdModalComponent implements OnInit {
     });
   }
 
-  public edit(ad: Ad) {
+  public isSubmitDisabled() {
+    return !(this.editAdForm.value.inputSize || this.fileToUpload || this.editAdForm.value.inputRoom
+          || this.editAdForm.value.inputPrice || this.location || this.latitude || this.longitude
+          || this.editAdForm.value.inputDetails || this.editAdForm.value.selectType != this.temp.property.type
+          || this.editAdForm.value.selectState != this.temp.property.state
+          );
+  }
+
+  public async edit(ad: Ad) {
     let ad_id: number = ad.ad_id,
     size: number = (this.editAdForm.value.inputSize == "" || !this.editAdForm.value.inputSize) ? ad.property.size : this.editAdForm.value.inputSize,
-    picture: string = ad.picture,
+    picture: string = this.fileToUpload ? await this.replaceImage(ad, this.fileToUpload) : ad.picture,
     room: number = (this.editAdForm.value.inputRoom == "" || !this.editAdForm.value.inputRoom) ? ad.property.roomNumber : this.editAdForm.value.inputRoom,
     price: string = (this.editAdForm.value.inputPrice == "" || !this.editAdForm.value.inputPrice) ? ad.price : this.editAdForm.value.inputPrice,
     type: string = (this.editAdForm.value.selectType == "" || !this.editAdForm.value.selectType) ? ad.property.type : this.editAdForm.value.selectType,
@@ -75,9 +83,10 @@ export class EditAdModalComponent implements OnInit {
     this.adService.edit(ad_id, size, room, price, type, state, details, location, latitude, longitude, picture).toPromise().then(
       (result: Ad) => {
         
-        this.location = null;
-        this.latitude = null;
-        this.longitude = null;
+        this.location = undefined;
+        this.latitude = undefined;
+        this.longitude = undefined;
+        this.fileToUpload = undefined;
 
         this.closeModal(result);
       },
@@ -85,6 +94,14 @@ export class EditAdModalComponent implements OnInit {
         this.openInfoModal('Error', err_response.error.message);
       }
     );
+  }
+
+  public async replaceImage(ad: Ad, file: File) {
+    if (ad.picture) {
+      this.aws.deleteAdImage(ad.picture);
+    }
+
+    return this.aws.uploadFile(file, +localStorage.getItem('user_id'), true);
   }
 
   public onSelectFile(event) {

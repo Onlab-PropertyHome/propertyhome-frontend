@@ -12,7 +12,7 @@ import { User, UserDetails } from '../models/user';
 export class AuthService {
 
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
- //  private baseUrl: string = "http://localhost:8080/api/";
+  // private baseUrl: string = "http://localhost:8080/api/";
 
   constructor(private httpClient: HttpClient, private router: Router) { }
 

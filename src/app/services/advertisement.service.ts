@@ -10,8 +10,7 @@ import { AdSearch } from '../models/adsearch';
 export class AdvertisementService {
 
   private baseUrl: string = "https://onlab-alberletdb.herokuapp.com/api/";
-   //private baseUrl: string = "http://localhost:8080/api/";
-//this.aws.uploadFile(file);
+  // private baseUrl: string = "http://localhost:8080/api/";
   constructor(private httpClient: HttpClient) { }
 
   public getall() : Observable<Ad[]> {

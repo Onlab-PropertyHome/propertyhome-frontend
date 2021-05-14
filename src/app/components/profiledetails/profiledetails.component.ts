@@ -98,7 +98,7 @@ export class ProfiledetailsComponent implements OnInit {
       picture = "";
     }
 
-    if (name == "" && email == "" && password == "" && tel == "" && this.selectedPicture == null) {
+    if (!(name != "" || email != "" || password != "" || tel != "" || this.selectedPicture)) {
       this.openInfoModal('Error', 'There are no changes!');
     } else {
       this.service.save(user_id, name, email, password, tel, await picture)

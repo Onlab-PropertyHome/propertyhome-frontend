@@ -35,12 +35,18 @@ export class AddAdModalComponent implements OnInit {
     });
   }
 
+  public isAddDisabled() {
+    return !(this.createAdForm.value.inputSize && this.createAdForm.value.inputRoom && this.fileToUpload 
+          && this.createAdForm.value.inputDetails && this.latitude && this.longitude && this.createAdForm.value.selectType != ''
+          && this.createAdForm.value.selectState != '');
+  }
+
   public async add() {
     let user_id: number = +localStorage.getItem('user_id'),
       size: number = this.createAdForm.value.inputSize,
       room: number = this.createAdForm.value.inputRoom,
       price = this.createAdForm.value.inputPrice,
-      picture = this.aws.uploadFile(this.fileToUpload, user_id, true),
+      picture = await this.aws.uploadFile(this.fileToUpload, user_id, true),
       type: string = this.createAdForm.value.selectType,
       state: string = this.createAdForm.value.selectState,
       details: string = this.createAdForm.value.inputDetails.replace(/ +/g, ' ');
